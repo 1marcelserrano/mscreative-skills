@@ -16,13 +16,28 @@ Uma coleção curada de skills para o Claude (Claude Code, Cowork e claude.ai). 
 
 ## Instalar
 
+Três caminhos, do mais rápido ao mais permanente. Escolha pelo seu meio.
+
+### 1. Testar agora — sem instalar (claude.ai, ChatGPT, Gemini)
+
+Abra o [`SKILL.md` do premortem](./skills/premortem/SKILL.md), copie o conteúdo inteiro, cole numa conversa nova e descreva sua decisão logo abaixo. A skill roda na hora. Zero setup, funciona em qualquer chat de IA.
+
+### 2. Claude Code / Cowork — uma skill, sem clonar o repo
+
 ```bash
-# Manual (qualquer skill da coleção)
+mkdir -p ~/.claude/skills/premortem
+curl -sL https://raw.githubusercontent.com/1marcelserrano/mscreative-skills/main/skills/premortem/SKILL.md \
+  -o ~/.claude/skills/premortem/SKILL.md
+```
+
+### 3. Coleção inteira — clonar e copiar
+
+```bash
 git clone https://github.com/1marcelserrano/mscreative-skills.git
 cp -r mscreative-skills/skills/premortem ~/.claude/skills/
 ```
 
-Reinicie a sessão do Claude. A skill dispara sozinha quando o contexto bate — ou chame pelo nome.
+Nos caminhos 2 e 3, reinicie a sessão do Claude. A skill dispara sozinha quando o contexto bate — ou chame pelo nome.
 
 ---
 
@@ -71,7 +86,7 @@ PRs são bem-vindos. Abra uma issue antes de mudanças grandes.
 
 ## Licença
 
-MIT — veja [LICENSE](./LICENSE).
+MIT + Commons Clause — veja [LICENSE](./LICENSE). Livre pra usar, estudar, modificar e usar internamente. Não pode revender nem reempacotar como produto pago.
 
 ---
 

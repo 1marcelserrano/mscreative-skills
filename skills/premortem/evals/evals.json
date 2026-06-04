@@ -1,28 +1,55 @@
 {
   "skill_name": "premortem",
+  "scoring": "binário — um caso só PASSA se TODOS os itens de pass_if forem verdadeiros. Cada item é uma checagem sim/não, sem julgamento holístico. Roda no prompt-eval.",
   "evals": [
     {
       "id": 0,
       "prompt": "premortem disso: vou subir o preço do meu produto de assinatura de R$49 pra R$89 mês que vem, pra toda a base atual de 1.200 clientes. A ideia é aumentar receita sem precisar captar cliente novo. Sucesso pra mim é manter pelo menos 90% da base depois do aumento e fechar o trimestre com receita maior.",
-      "expected_output": "Roda o premortem completo: enquadra a falha no horizonte calibrado (1 trimestre), gera motivos de falha com evidência, triagem Tigre/Tigre de Papel/Elefante, agentes em paralelo + red-team, síntese com matriz PxI, base rate de churn por aumento de preço, tripwires datados, e gera o relatório HTML + transcrição. Resumo de 3 frases no chat.",
+      "should_trigger": true,
+      "pass_if": [
+        "Dispara o premortem (não responde só 'tem certeza?' nem pede mais contexto — a barra mínima já está no prompt)",
+        "Enquadra explicitamente a falha como já ocorrida (ex.: 'o plano falhou')",
+        "Calibra o horizonte de falha em 1 trimestre",
+        "Entrega a triagem Tigre / Tigre de Papel / Elefante",
+        "Inclui base rate de churn por aumento de preço (número ou faixa)",
+        "Inclui ao menos 1 tripwire com data",
+        "Inclui plano revisado com o experimento que falsifica a premissa mais arriscada primeiro",
+        "Gera relatório HTML + transcrição em markdown",
+        "Fecha com resumo de no máximo 3 frases no chat"
+      ],
       "files": []
     },
     {
       "id": 1,
       "prompt": "to a ponto de contratar meu primeiro head of growth, salario alto, pra escalar aquisicao. acho q to deixando passar alguma coisa nessa decisao. me ajuda a ver os pontos cegos antes de fechar",
-      "expected_output": "Reconhece intenção de premortem mesmo sem a palavra. Antes de rodar, varre contexto e pergunta o que falta da barra mínima (o que é o negócio/estágio, o que é sucesso na contratação, confiança inicial). Calibra horizonte pra 12-18 meses (contratação). Roda a triagem e expõe o Elefante (provável: dúvida sobre prontidão da empresa pra um head sênior, ou ego de querer o cargo preenchido). Tripwires com data + dono.",
+      "should_trigger": true,
+      "pass_if": [
+        "Reconhece a intenção de premortem mesmo sem a palavra 'premortem'",
+        "Antes de rodar, pede o contexto mínimo faltante: o que é o negócio/estágio, o que é sucesso na contratação, e confiança inicial 0-100%",
+        "Calibra o horizonte de falha em 12-18 meses (contratação)",
+        "Nomeia um Elefante (verdade não dita — ex.: prontidão da empresa pra um head sênior, ou ego de preencher o cargo)",
+        "Inclui ao menos 1 tripwire com data + dono"
+      ],
       "files": []
     },
     {
       "id": 2,
       "prompt": "qual a diferença entre EBITDA e lucro líquido? preciso explicar isso numa reunião amanhã",
-      "expected_output": "NÃO dispara o premortem. É pergunta factual com resposta certa. Responde direto a diferença entre EBITDA e lucro líquido.",
+      "should_trigger": false,
+      "pass_if": [
+        "NÃO dispara o premortem",
+        "Responde direto a diferença entre EBITDA e lucro líquido"
+      ],
       "files": []
     },
     {
       "id": 3,
       "prompt": "revisa esse parágrafo de abertura do meu email de vendas e me diz se a copy tá boa: 'Você já se sentiu travado tentando crescer seu negócio sozinho? Eu também já estive aí...'",
-      "expected_output": "NÃO dispara o premortem. É pedido de feedback de rascunho (edição de copy), não análise de falha de um plano. Dá feedback de copywriting.",
+      "should_trigger": false,
+      "pass_if": [
+        "NÃO dispara o premortem",
+        "Dá feedback de copywriting do parágrafo (é edição de rascunho, não análise de falha de plano)"
+      ],
       "files": []
     }
   ]
