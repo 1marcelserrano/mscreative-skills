@@ -2,7 +2,7 @@
 
 **Skills públicas da MSCREATIVE.SYSTEMS™ para o Claude. Ferramentas de decisão, em português.**
 
-[Instalar](#instalar) • [Skills](#skills-disponíveis) • [Em destaque: premortem](#em-destaque-premortem)
+[Instalar](#instalar) • [Skills](#skills-disponíveis) • [As skills em detalhe](#as-skills-em-detalhe)
 
 ---
 
@@ -17,67 +17,57 @@ Uma coleção curada de skills para o Claude (Claude Code, Cowork e claude.ai). 
 
 ## Instalar
 
-Três caminhos, do mais rápido ao mais permanente. Escolha pelo seu meio.
+Três caminhos, do mais rápido ao mais permanente. Valem pra qualquer skill da coleção — é só trocar o nome.
 
 ### 1. Testar agora — sem instalar (claude.ai, ChatGPT, Gemini)
 
-Abra o [`SKILL.md` do premortem](./skills/premortem/SKILL.md), copie o conteúdo inteiro, cole numa conversa nova e descreva sua decisão logo abaixo. A skill roda na hora. Zero setup, funciona em qualquer chat de IA.
+Abra o `SKILL.md` da skill que você quer ([`premortem`](./skills/premortem/SKILL.md) ou [`llm-council`](./skills/llm-council/SKILL.md)), copie o conteúdo inteiro, cole numa conversa nova e descreva sua decisão logo abaixo. A skill roda na hora. Zero setup, funciona em qualquer chat de IA.
 
 ### 2. Claude Code / Cowork — uma skill, sem clonar o repo
 
 ```bash
-mkdir -p ~/.claude/skills/premortem
-curl -sL https://raw.githubusercontent.com/1marcelserrano/mscreative-skills/main/skills/premortem/SKILL.md \
-  -o ~/.claude/skills/premortem/SKILL.md
+SKILL=premortem   # ou: llm-council
+mkdir -p ~/.claude/skills/$SKILL
+curl -sL https://raw.githubusercontent.com/1marcelserrano/mscreative-skills/main/skills/$SKILL/SKILL.md \
+  -o ~/.claude/skills/$SKILL/SKILL.md
 ```
+
+> Skills com pasta `references/` (como a `llm-council`) rodam melhor instaladas completas — use o caminho 3 pra trazer os arquivos de apoio junto.
 
 ### 3. Coleção inteira — clonar e copiar
 
 ```bash
 git clone https://github.com/1marcelserrano/mscreative-skills.git
-cp -r mscreative-skills/skills/premortem ~/.claude/skills/
+cp -r mscreative-skills/skills/* ~/.claude/skills/        # todas as skills
+# ou só uma:
+cp -r mscreative-skills/skills/llm-council ~/.claude/skills/
 ```
 
 Nos caminhos 2 e 3, reinicie a sessão do Claude. A skill dispara sozinha quando o contexto bate — ou chame pelo nome.
 
 ---
 
-## Em destaque: premortem
+## As skills em detalhe
+
+### premortem
 
 Um postmortem investiga por que algo morreu depois que morreu. O premortem faz o oposto: você imagina que já falhou e descobre por quê antes de começar. Método de Gary Klein (Harvard Business Review), a técnica de decisão que Daniel Kahneman chamou de sua mais valiosa.
 
-### Como funciona
+**Quando usar:** um lançamento com dinheiro ou reputação em jogo, uma mudança de pricing, uma contratação cara, um pivô de estratégia — qualquer decisão onde errar custa caro e ainda dá pra mudar de rumo. Linguagem natural também dispara: "to a ponto de contratar meu primeiro head of growth, me ajuda a ver os pontos cegos antes de fechar".
 
-| Antes | Depois |
-|---|---|
-| Você pergunta "esse plano é bom?" e o modelo acha razões pra dizer sim. | A premortem assume que o plano já morreu e te entrega os riscos reais, a premissa que você não questionou e tripwires datados — antes de você gastar. |
+**O que entrega:** triagem Tigre / Tigre de Papel / Elefante (separa ameaça real do que só assusta), matriz Probabilidade × Impacto, visão de fora (base rates), tripwires datados, plano revisado pelo menor experimento falsificador primeiro, e relatório HTML.
 
-O modelo para de procurar razões pro seu plano funcionar e passa a explicar como ele desmoronou.
+**Por que funciona:** o enquadramento "isso já morreu" quebra o otimismo cordial do modelo. Ele para de procurar razões pro seu plano funcionar e passa a explicar como ele desmoronou.
 
-### Quando usar
+### llm-council
 
-- Um lançamento com dinheiro ou reputação em jogo
-- Uma mudança de pricing ou de modelo de negócio
-- Uma contratação cara prestes a acontecer
-- Um pivô de estratégia ou posicionamento
-- Qualquer decisão onde errar custa caro — e que ainda dá pra mudar de rumo
+Você pergunta pra uma IA e recebe uma resposta — mas não tem como saber se é boa, porque só viu uma perspectiva. O conselho passa sua decisão por 5 conselheiros que pensam de ângulos opostos, faz cada um revisar os outros às cegas, e um presidente sintetiza o veredito final. Método LLM Council de Andrej Karpathy.
 
-Linguagem natural também dispara — ex.: "to a ponto de contratar meu primeiro head of growth, me ajuda a ver os pontos cegos antes de fechar".
+**Quando usar:** uma escolha entre opções com trade-off real, validar um pivô, achar o furo numa estratégia, pressionar uma decisão de vários ângulos — quando existe incerteza genuína e o custo de errar é alto. Dispara com "passa no conselho", "devo fazer X ou Y" ou "não consigo decidir".
 
-### O que entrega
+**O que entrega:** 5 conselheiros em tensão proposital (o Contrário, o Pensador de Primeiros Princípios, o Expansionista, o Forasteiro, o Executor), revisão cruzada anônima entre eles, e um veredito com onde o conselho concorda, onde diverge, os pontos cegos pegos na revisão, a recomendação direta e o primeiro passo. Mais relatório HTML.
 
-- **Triagem Tigre / Tigre de Papel / Elefante** — separa ameaça real (com evidência) do que só assusta, e nomeia o que você está evitando falar.
-- **Matriz Probabilidade × Impacto** — prioriza onde focar, sem achismo.
-- **Visão de fora (base rates)** — "decisões como esta falham X% das vezes", pra ancorar a imaginação na taxa histórica real.
-- **Tripwires datados** — gatilhos com data e ação ("se até DD/MM X não acontecer → pivota"), decididos a frio.
-- **Plano revisado** — sequenciado pelo menor experimento que falsifica sua premissa mais arriscada primeiro.
-- **Relatório HTML** — visual, escaneável, pra revisitar a decisão depois.
-
-### Por que funciona
-
-- **Honestidade forçada** — o enquadramento "isso já morreu" quebra o otimismo cordial do modelo, que por padrão acha razões pra concordar com você.
-- **Triagem que prioriza** — nem todo medo merece a mesma energia; a classificação separa o Tigre real do Tigre de Papel.
-- **Saída acionável** — plano revisado, tripwires com data e relatório, não conselho genérico que serve pra qualquer coisa.
+**Por que funciona:** diversidade de ângulos somada à revisão anônima bate o oráculo único. Cada conselheiro mergulha inteiro no ângulo dele; o equilíbrio vem só na síntese — depois que as visões já bateram de frente.
 
 ---
 
