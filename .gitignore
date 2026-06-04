@@ -1,0 +1,13 @@
+# Saídas geradas pelas skills (relatórios, transcrições, workspaces de teste)
+*-workspace/
+premortem-relatorio-*.html
+premortem-transcricao-*.md
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Editores
+.vscode/
+.idea/
+*.swp
