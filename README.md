@@ -13,6 +13,7 @@ Uma coleção curada de skills para o Claude (Claude Code, Cowork e claude.ai). 
 | Skill | Versão | O que faz | Triggers principais |
 |---|---|---|---|
 | [`premortem`](./skills/premortem/) | v1.0 | Assume que seu plano já falhou e descobre por quê antes de você gastar dinheiro, tempo ou reputação. | `roda um premortem`, `o que pode matar isso`, `onde isso quebra`, `que ponto cego eu tenho`, `fura esse plano` |
+| [`llm-council`](./skills/llm-council/) | v1.0 | Passa sua decisão por 5 conselheiros de IA que analisam de ângulos opostos, se revisam às cegas e sintetizam um veredito. Método LLM Council do Karpathy. | `passa no conselho`, `convoca o conselho`, `põe à prova`, `devo fazer X ou Y`, `não consigo decidir`, `me dá várias perspectivas` |
 
 ## Instalar
 
