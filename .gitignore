@@ -1,3 +1,6 @@
+# Kit de lançamento / copy interno de marketing — não é parte da skill instalável
+press-kit/
+
 # Saídas geradas pelas skills (relatórios, transcrições, workspaces de teste)
 *-workspace/
 premortem-relatorio-*.html
