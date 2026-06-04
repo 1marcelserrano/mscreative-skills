@@ -1,0 +1,65 @@
+{
+  "skill_name": "llm-council",
+  "scoring": "binário — um caso só PASSA se TODOS os itens de pass_if forem verdadeiros. Cada item é uma checagem sim/não, sem julgamento holístico. Roda no prompt-eval.",
+  "evals": [
+    {
+      "id": 0,
+      "prompt": "passa no conselho: tô na dúvida entre lançar um workshop ao vivo de R$497 ou um curso gravado de R$1.500 sobre IA pra times de marketing. minha lista tem 4.000 pessoas, a maioria operador solo. quero faturar e construir autoridade no nicho. qual é a jogada certa?",
+      "should_trigger": true,
+      "pass_if": [
+        "Dispara o conselho (não responde direto com uma opinião única, nem pede contexto extra — a barra mínima já está no prompt)",
+        "Convoca os 5 conselheiros (Contrário, Primeiros Princípios, Expansionista, Forasteiro, Executor), cada um de seu ângulo, em paralelo",
+        "Roda a revisão cruzada (peer review) das respostas de forma anônima",
+        "Produz a síntese do presidente com as 5 seções: onde concorda, onde diverge, pontos cegos, recomendação, primeiro passo",
+        "A recomendação é direta (toma partido, não responde 'depende')",
+        "Fecha com um único próximo passo concreto",
+        "Gera relatório HTML + transcrição em markdown",
+        "Fecha com resumo de no máximo 3 frases no chat"
+      ],
+      "files": []
+    },
+    {
+      "id": 1,
+      "prompt": "tô dividido entre contratar meu primeiro VA agora ou construir uma automação pra isso antes. me dá várias perspectivas, não consigo decidir sozinho",
+      "should_trigger": true,
+      "pass_if": [
+        "Reconhece a intenção de conselho mesmo sem a frase 'passa no conselho' (gatilhos 'tô dividido entre', 'me dá várias perspectivas', 'não consigo decidir')",
+        "Se faltar contexto pra resposta específica, faz no máximo UMA pergunta de esclarecimento antes de rodar",
+        "Convoca os 5 conselheiros em paralelo, cada um de seu ângulo",
+        "Inclui a revisão cruzada anônima antes da síntese",
+        "Entrega recomendação direta + um único primeiro passo"
+      ],
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "qual a diferença entre CAC e LTV? preciso explicar isso numa reunião amanhã",
+      "should_trigger": false,
+      "pass_if": [
+        "NÃO dispara o conselho",
+        "Responde direto a diferença entre CAC e LTV (pergunta factual com resposta certa)"
+      ],
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "devo usar markdown ou texto puro pro meu README?",
+      "should_trigger": false,
+      "pass_if": [
+        "NÃO dispara o conselho",
+        "Responde direto (é 'devo' casual sem trade-off de peso — não é decisão de alto custo de erro)"
+      ],
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "escreve um tweet anunciando meu novo workshop de IA",
+      "should_trigger": false,
+      "pass_if": [
+        "NÃO dispara o conselho",
+        "Escreve o tweet (é tarefa de criação, não decisão a ser pressionada)"
+      ],
+      "files": []
+    }
+  ]
+}
