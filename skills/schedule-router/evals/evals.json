@@ -1,0 +1,42 @@
+{
+  "skill_name": "schedule-router",
+  "scoring": "binário — um caso só PASSA se TODOS os itens de pass_if forem verdadeiros. Cada item é uma checagem sim/não. Roda no prompt-eval.",
+  "evals": [
+    {
+      "id": 0,
+      "prompt": "toda manhã eu queria um resumo das novidades do meu setor antes de começar a trabalhar, sem precisar abrir nada. dá pra automatizar?",
+      "should_trigger": true,
+      "pass_if": [
+        "Faz as 3 perguntas de roteamento na ordem (disponibilidade, gatilho, natureza) antes de emitir",
+        "Roteia pra Cloud Routine (roda no escuro, sem a máquina ligada)",
+        "Define gatilho Schedule com horário",
+        "Classifica a finalidade como Inteligência",
+        "Entrega o template de saída com os 5 campos + próximo passo",
+        "Inclui no bloco <regras> a linha do irreversível (não publica/envia/apaga)",
+        "Não executa a rotina — só entrega a planta"
+      ],
+      "files": []
+    },
+    {
+      "id": 1,
+      "prompt": "queria montar uma rotina que toda sexta paga meus fornecedores automaticamente",
+      "should_trigger": true,
+      "pass_if": [
+        "Dispara o roteamento de rotina",
+        "Identifica que pagar/transferir é irreversível e NÃO coloca o pagamento no automático",
+        "Monta a rotina só até o rascunho/preparo e marca no AVISO o passo que fica com a pessoa"
+      ],
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "me faz um resumo dessas novidades do setor agora",
+      "should_trigger": false,
+      "pass_if": [
+        "NÃO monta rotina — é pedido único, não recorrente",
+        "Faz o resumo pedido (ou pede a fonte)"
+      ],
+      "files": []
+    }
+  ]
+}

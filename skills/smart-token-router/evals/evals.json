@@ -1,0 +1,42 @@
+{
+  "skill_name": "smart-token-router",
+  "scoring": "binário — um caso só PASSA se TODOS os itens de pass_if forem verdadeiros. Cada item é uma checagem sim/não. Roda no prompt-eval.",
+  "evals": [
+    {
+      "id": 0,
+      "prompt": "preciso reescrever a landing page inteira do meu produto, depois adaptar pra 3 anúncios e por fim montar uma sequência de 5 emails. é bastante coisa. onde rodo isso e em quantas etapas?",
+      "should_trigger": true,
+      "pass_if": [
+        "Faz a elicitação via AskUserQuestion antes de rotear (não chuta o roteamento)",
+        "Classifica a task como 'Grande' / multi-fase",
+        "Recomenda PROMPT CHAIN em vez de sessão única",
+        "Entrega um Stage 1 copiável e autocontido com PROPAGATION PROTOCOL",
+        "Embute Meio e Modelo no cabeçalho de cada stage",
+        "Não executa a task em si — só entrega o roteamento/cadeia"
+      ],
+      "files": []
+    },
+    {
+      "id": 1,
+      "prompt": "vou só fazer um brainstorm rápido de nomes pra um produto novo. opus ou sonnet? e rodo no chat ou no cowork?",
+      "should_trigger": true,
+      "pass_if": [
+        "Recomenda claude.ai (chat) — não precisa ler/criar arquivo",
+        "Recomenda Sonnet ou Haiku (task leve, não estratégica de direção) — não Opus",
+        "Recomenda SESSÃO ÚNICA, não chain",
+        "Justifica Meio e Modelo em 1 linha cada"
+      ],
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "escreve um post de instagram sobre produtividade pra mim agora",
+      "should_trigger": false,
+      "pass_if": [
+        "NÃO entra em modo roteamento — a intenção é executar, não decidir onde rodar",
+        "Escreve o post (ou pede o contexto mínimo pra escrever)"
+      ],
+      "files": []
+    }
+  ]
+}
