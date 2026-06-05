@@ -1,0 +1,42 @@
+{
+  "skill_name": "cowork-setup",
+  "scoring": "binário — um caso só PASSA se TODOS os itens de pass_if forem verdadeiros. Cada item é uma checagem sim/não. Roda no prompt-eval.",
+  "evals": [
+    {
+      "id": 0,
+      "prompt": "acabei de assinar o Claude e quero organizar tudo pra ele me conhecer e trabalhar do meu jeito. por onde começo?",
+      "should_trigger": true,
+      "pass_if": [
+        "Começa com AskUserQuestion pra entender o tipo de trabalho da pessoa (modo Full setup)",
+        "Propõe a estrutura de 4 pastas (3 read-only + 1 write)",
+        "Cobre os 3 arquivos de contexto: about-me, writing-style, PROJECTS.md",
+        "Explica a distinção PROJECTS.md (dashboard) vs PROJECTS/ (pasta de profundidade)",
+        "Inclui o ritual de refresh semanal antes de declarar concluído",
+        "Compõe os arquivos no lugar do usuário em vez de mandar ele escrever do zero"
+      ],
+      "files": []
+    },
+    {
+      "id": 1,
+      "prompt": "já tenho uns arquivos de contexto montados mas sinto que o Claude não tá pegando bem meu jeito de escrever. dá pra revisar o que tá faltando?",
+      "should_trigger": true,
+      "pass_if": [
+        "Entra em modo Diagnosis (audita o que já existe em vez de recriar tudo)",
+        "Pergunta o que especificamente não está funcionando",
+        "Aponta gaps contra o checklist (estrutura, about-me, writing-style, PROJECTS.md, CLAUDE.md, ritual)",
+        "Oferece corrigir cada gap, não só listar"
+      ],
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "qual a diferença entre o plano Pro e o Max do Claude?",
+      "should_trigger": false,
+      "pass_if": [
+        "NÃO entra em modo setup de workspace",
+        "Responde a diferença entre os planos"
+      ],
+      "files": []
+    }
+  ]
+}

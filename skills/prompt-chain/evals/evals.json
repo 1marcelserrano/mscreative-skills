@@ -1,0 +1,41 @@
+{
+  "skill_name": "prompt-chain",
+  "scoring": "binário — um caso só PASSA se TODOS os itens de pass_if forem verdadeiros. Cada item é uma checagem sim/não. Roda no prompt-eval.",
+  "evals": [
+    {
+      "id": 0,
+      "prompt": "tenho uma migração grande pra fazer e quero rodar cada fase num chat novo, com um prompt que já gera o prompt da próxima fase. monta isso pra mim.",
+      "should_trigger": true,
+      "pass_if": [
+        "Decompõe a tarefa em 2–6 stages com deliverable verificável cada",
+        "Entrega o Stage 1 em bloco de código copiável e autocontido",
+        "Inclui a seção CONTEXTO HERDADO com contexto estável",
+        "Inclui o PROPAGATION PROTOCOL que faz o stage emitir o próximo prompt",
+        "Define o protocolo de término (CHAIN COMPLETE) e o de bloqueio (CHAIN PAUSED)"
+      ],
+      "files": []
+    },
+    {
+      "id": 1,
+      "prompt": "esse trabalho é longo e tenho medo de estourar o contexto numa sessão só. dá pra dividir em chats separados sem perder o que já foi decidido?",
+      "should_trigger": true,
+      "pass_if": [
+        "Reconhece a intenção de chain mesmo sem a palavra 'prompt chain'",
+        "Explica a separação contexto estável vs contexto dinâmico",
+        "Propõe stages com Definition of Done claro",
+        "Garante que cada prompt emitido é colável cold em chat novo"
+      ],
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "renomeia essa variável de userId pra accountId nesse arquivo",
+      "should_trigger": false,
+      "pass_if": [
+        "NÃO monta uma chain — é tarefa de um passo só",
+        "Faz (ou explica) a renomeação direto"
+      ],
+      "files": []
+    }
+  ]
+}

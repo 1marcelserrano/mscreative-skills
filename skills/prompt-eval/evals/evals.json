@@ -1,0 +1,43 @@
+{
+  "skill_name": "prompt-eval",
+  "scoring": "binário — um caso só PASSA se TODOS os itens de pass_if forem verdadeiros. Cada item é uma checagem sim/não. (Sim, dá pra rodar o prompt-eval sobre o próprio prompt-eval.)",
+  "evals": [
+    {
+      "id": 0,
+      "prompt": "mudei meu prompt de legenda e acho que ficou melhor, mas não tenho certeza. tenho a versão antiga e a nova. como eu provo qual é melhor de verdade?",
+      "should_trigger": true,
+      "pass_if": [
+        "Reconhece a intenção de eval mesmo sem a palavra 'eval'",
+        "Confirma intenção + promessa de tempo antes de começar",
+        "Captura A, B e a hipótese da mudança",
+        "Força critérios objetivos no S3 (rejeita critério vago como 'soa bem')",
+        "Coleta 3–6 inputs reais e recusa input fictício",
+        "Roteia grading: [OBJ] programático, [SUBJ] humano via AskUserQuestion",
+        "Aplica a regra de decisão (≥15 p.p. = adota B) em vez de chutar veredicto",
+        "Persiste o resultado num arquivo .md"
+      ],
+      "files": []
+    },
+    {
+      "id": 1,
+      "prompt": "comparar dois prompts: A e B. quero saber qual usar.",
+      "should_trigger": true,
+      "pass_if": [
+        "Dispara o eval em modo Prompt-eval",
+        "Pede o texto de A, de B e a hipótese",
+        "Não pula a definição de critérios nem o grading"
+      ],
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "me escreve um prompt bom pra gerar headlines de email",
+      "should_trigger": false,
+      "pass_if": [
+        "NÃO dispara o eval — isso é prompt engineering, não avaliação A/B",
+        "Escreve o prompt pedido"
+      ],
+      "files": []
+    }
+  ]
+}
