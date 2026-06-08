@@ -1,5 +1,21 @@
 # Changelog
 
+## v1.1.0 — 2026-06-08
+
+Amplia a cobertura para tells estruturais, de formatação e de hermetismo ausentes na v1.0.0.
+
+| Área | Entrega |
+|---|---|
+| Estruturas | Gerúndio de falsa profundidade, cópula inflada, variação elegante, falso intervalo, seção de desafios formulaica, atribuição vaga, teste de imagem para abstração. |
+| Frases | Artefatos de chat colados, disclaimers de corte de conhecimento, tique do “vale nomear”. |
+| Ritmo | Contrapeso anti-esterilização (não tirar a alma), laje aforística, frase periódica com lista. |
+| Metáforas | Arquivo novo `references/metaforas-ptbr.md`: teste de permissão + construções e verbos clichê. |
+| Formatação | Arquivo novo `references/formatacao-ptbr.md`: negrito mecânico, emoji, lista de cabeçalho, aspas curvas, heading-eco. |
+| Hermetismo | Arquivo novo `references/hermetismo-ptbr.md`: jargão proprietário sem aterrissagem + fórmula da aterrissagem + cunhagem em série. |
+| Processo | Passo de auto-auditoria final (“o que ainda denuncia IA aqui?”) no fluxo; dimensão “Vida” na rubrica (escala para /60); teste “E daí?” na checklist. |
+
+Os padrões de estrutura e formatação re-expressam, em PT-BR, tells que o `stop-slop` cataloga em inglês — coerente com a atribuição MIT existente. As camadas de hermetismo, metáfora e anti-esterilização são contribuição original da versão PT-BR.
+
 ## v1.0.0 — 2026-06-08
 
 Primeira versão pública da skill `nem-parece-ia`.

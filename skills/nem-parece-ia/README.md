@@ -109,7 +109,10 @@ nem-parece-ia/
     ├── checklist.md
     ├── estruturas-ptbr.md
     ├── exemplos.md
+    ├── formatacao-ptbr.md
     ├── frases-ptbr.md
+    ├── hermetismo-ptbr.md
+    ├── metaforas-ptbr.md
     ├── registros.md
     └── ritmo-ptbr.md
 ```

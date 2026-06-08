@@ -34,6 +34,9 @@ O texto deve avançar, não narrar sua própria estrutura. Cortar quando o sumá
 | Para entender melhor | Explicar diretamente |
 | Vamos mergulhar em | Trocar por “analisar”, “examinar” ou cortar |
 | A seguir, veremos | Usar heading ou transição, não anúncio |
+| Isso tem uma mecânica que vale nomear | Nomear direto, sem anunciar |
+| Aqui entra um conceito importante | Apresentar o conceito |
+| Vale dar um nome a isso | Dar o nome ou cortar |
 
 ## Muletas de importância
 
@@ -122,6 +125,34 @@ Conectores podem ser úteis. Cortar quando apenas simulam coesão.
 | entretanto | Pode dramatizar contraste pequeno |
 | portanto | Deve concluir algo demonstrado |
 | vale lembrar | Frequentemente introduz informação redundante |
+
+## Artefatos de chat colados
+
+Restos de conversa com o modelo que vazam para o texto final. Cortar todos.
+
+| Cortar |
+|---|
+| Claro! / Com certeza! |
+| Ótima pergunta! |
+| Espero que isso ajude! |
+| Aqui está um resumo de... |
+| Vale lembrar que estou aqui para ajudar |
+| Quer que eu detalhe alguma parte? |
+| Você está absolutamente certo! |
+| Que ponto excelente! |
+
+**Regra:** o texto final não conversa com quem o gerou. Apaga a moldura de diálogo e começa pela informação.
+
+## Disclaimers de corte de conhecimento
+
+| Cortar | Ação |
+|---|---|
+| Até a minha última atualização... | Verificar o fato e afirmá-lo |
+| Com base nas informações disponíveis... | Citar a fonte específica |
+| Embora os detalhes sejam escassos... | Pesquisar antes de escrever |
+| Não tenho acesso em tempo real a... | Remover; buscar o dado |
+
+**Regra:** o texto não comenta os limites de quem o escreveu. Verifica e afirma, ou corta a frase.
 
 ## Critério final
 

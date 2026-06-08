@@ -27,6 +27,10 @@ Fragmentos podem funcionar em copy, manifesto ou poesia. Em revisão geral, cort
 | “Sem ruído.” | Abstração estética sem objeto |
 | “Na prática.” | Útil se vier prática real; vazio se vier slogan |
 
+**Laje aforística:** no máximo uma frase-sentença por peça, e ela tem que ganhar o lugar. Abrir e fechar toda seção com aforismo isolado soa profundo e lê como biscoito da sorte. Uma frase-sentença, no clímax, ancorada em algo concreto. O resto é prosa que conduz.
+
+**Frase periódica com lista embutida:** quebrar em frases curtas, com o verbo principal cedo. “O que os movimentos de sistematização, de A até B, revelam, é que...” adia o verbo e enfia uma lista no meio. Três frases curtas entregam o mesmo sem cobrar pedágio do leitor.
+
 ## Tríades e enumeração
 
 IA usa três itens porque três soa completo. Revisar listas de três com suspeita.
@@ -76,3 +80,24 @@ Pontuação dramática pode denunciar texto artificial quando vira padrão.
 ## Teste de naturalidade em voz alta
 
 Ler o parágrafo em voz alta. Se ele parecer roteiro de palestra motivacional, legenda de carrossel genérico ou tradução de post americano, revisar. A frase precisa soar como alguém pensando em português brasileiro, não como uma estrutura importada preenchida com palavras locais.
+
+## Não esterilizar: o oposto do slop
+
+Cortar tique é metade do trabalho. Texto tecnicamente limpo, sem opinião e sem ritmo, denuncia origem artificial tanto quanto o slop que ele substituiu.
+
+Sinais de texto esterilizado:
+
+- toda frase com o mesmo tamanho;
+- nenhuma opinião, só relato neutro;
+- nenhum “eu” onde caberia;
+- nenhuma hesitação ou nuance real;
+- fechamento sempre redondo.
+
+O que repor depois de cortar:
+
+- **opinião:** reagir ao fato, não só relatá-lo;
+- **ritmo variado:** frase curta seca, depois uma longa que se desenrola;
+- **primeira pessoa** quando couber: honesta, não confessional;
+- **alguma imperfeição:** aparte, parêntese, pensamento que muda de direção no meio.
+
+**Regra de calibração:** escrever normal primeiro, depois remover o que soa máquina. Não forçar punchy em tudo. Não transformar todo parágrafo em uma frase. Não evitar a palavra exata só porque ela se repete.

@@ -17,11 +17,12 @@ Não aplicar regras cegas. Ajustar a revisão ao gênero, público e canal. Um p
 
 1. **Identificar o registro** antes de editar: social/opinativo, ensaio, e-mail, institucional, técnico, acadêmico, comercial ou criativo.
 2. **Detectar muletas pt-BR** em frases, aberturas, conectores, intensificadores, jargões e metacomentários.
-3. **Diagnosticar estruturas artificiais**: contraste fabricado, falsa agência, passiva evasiva, abstração vaga, pergunta performática e punchline automática.
+3. **Diagnosticar estruturas artificiais**: contraste fabricado, falsa agência, passiva evasiva, cópula inflada, gerúndio de falsa profundidade, variação elegante, falso intervalo, abstração vaga, pergunta performática e punchline automática.
 4. **Reescrever com agente, ação e objeto**: nomear quem faz, o que faz, por que importa e qual consequência concreta aparece.
 5. **Regular o ritmo**: alternar frase curta, média e longa; evitar tríades previsíveis; não encerrar todo parágrafo com frase de efeito.
-6. **Preservar nuance quando ela trabalha**: não cortar advérbios, modalizadores, passivas ou conectores quando eles carregam precisão, escopo, cortesia ou rigor.
-7. **Entregar duas camadas quando útil**: diagnóstico curto dos padrões encontrados e versão revisada do texto.
+6. **Preservar nuance quando ela trabalha**: não cortar advérbios, modalizadores, passivas ou conectores quando eles carregam precisão, escopo, cortesia ou rigor. Não esterilizar a voz: texto limpo sem opinião nem ritmo denuncia tanto quanto slop.
+7. **Auto-auditoria final**: reler a versão revisada e perguntar “o que ainda denuncia origem artificial aqui?”. Listar os tells restantes em uma linha e corrigir antes de entregar.
+8. **Entregar duas camadas quando útil**: diagnóstico curto dos padrões encontrados e versão revisada do texto.
 
 ## Regras centrais
 
@@ -32,6 +33,8 @@ Não aplicar regras cegas. Ajustar a revisão ao gênero, público e canal. Um p
 | Nomear o agente | Trocar “o mercado exige” por “clientes B2B recusam contratos sem SLA”. |
 | Reduzir contraste performático | Trocar “não é sobre X, é sobre Y” por uma afirmação direta de Y, exceto quando o contraste realmente organiza a tese. |
 | Cortar falsa profundidade | Remover “isso muda tudo”, “o ponto é simples”, “a verdade é que” se não acrescentam prova. |
+| Cortar cópula inflada | Trocar “serve como”, “funciona como”, “se posiciona como” por “é”, “tem”, “faz”. |
+| Cortar gerúndio decorativo | Remover “destacando sua importância”, “refletindo tendências mais amplas”, “pavimentando o caminho”. |
 | Remover lero corporativo | Trocar “alavancar sinergias para entregar valor” por verbos verificáveis. |
 | Controlar intensificadores | Cortar “muito”, “profundamente”, “realmente”, “simplesmente”, “genuinamente” quando só aumentam volume. |
 | Variar cadência | Evitar sequência de frases com mesma extensão, tríades automáticas e parágrafos terminados sempre em punchline. |
@@ -50,7 +53,11 @@ Antes de entregar o texto revisado, verificar:
 - Há três itens onde um ou dois bastariam?
 - Há advérbio que infla em vez de especificar?
 - Há parágrafo encerrando com frase de efeito previsível?
-- A revisão preservou o registro adequado ao contexto?
+- Há cópula inflada (“serve como”, “funciona como”) onde caberia “é”?
+- Há gerúndio colado no fim da frase só para simular análise?
+- Há metáfora clichê que não passa no teste de permissão?
+- Há negrito, emoji ou lista de cabeçalho que denunciam origem artificial?
+- A revisão preservou o registro adequado ao contexto, sem esterilizar a voz?
 
 ## Rubrica de pontuação
 
@@ -63,8 +70,9 @@ Avaliar de 1 a 10 em cada dimensão.
 | Naturalidade | O texto soa como português brasileiro escrito por pessoa fluente? |
 | Ritmo | A cadência varia conforme a ideia, sem metrônomo de IA? |
 | Adequação | O texto respeita gênero, canal, público e nível de formalidade? |
+| Vida | O texto tem opinião, ritmo variado e alguma imperfeição, ou ficou limpo e sem alma? |
 
-Abaixo de 35/50, revisar profundamente. Entre 35 e 42, corrigir padrões dominantes. Acima de 42, fazer polimento localizado.
+Abaixo de 42/60, revisar profundamente. Entre 42 e 50, corrigir padrões dominantes. Acima de 50, fazer polimento localizado.
 
 ## Referências sob demanda
 
@@ -75,6 +83,9 @@ Ler apenas os arquivos necessários para a tarefa atual.
 | `references/frases-ptbr.md` | Quando precisar detectar muletas, conectores vazios, jargão, intensificadores e frases prontas. |
 | `references/estruturas-ptbr.md` | Quando o problema estiver na forma argumentativa, na sintaxe, na agência ou na arquitetura do parágrafo. |
 | `references/ritmo-ptbr.md` | Quando o texto soar robótico, performático, metrônomico, com frases de efeito ou cadência previsível. |
+| `references/metaforas-ptbr.md` | Quando o texto usar metáfora, analogia ou comparação clichê. |
+| `references/formatacao-ptbr.md` | Quando o texto vier de markdown ou colado de chat: negrito, emoji, listas, aspas. |
+| `references/hermetismo-ptbr.md` | Quando houver termo cunhado ou jargão interno sem tradução (texto de marca, produto, método). |
 | `references/registros.md` | Quando precisar calibrar a revisão para gênero textual específico. |
 | `references/exemplos.md` | Quando precisar de modelos de antes/depois para guiar a reescrita. |
 | `references/checklist.md` | Quando precisar de uma auditoria rápida ou uma ordem objetiva de edição. |
