@@ -15,6 +15,7 @@ Uma coleção curada de skills para o Claude (Claude Code, Cowork e claude.ai). 
 | [`premortem`](./skills/premortem/) | v1.0 | Assume que seu plano já falhou e descobre por quê antes de você gastar dinheiro, tempo ou reputação. | `roda um premortem`, `o que pode matar isso`, `onde isso quebra`, `que ponto cego eu tenho`, `fura esse plano` |
 | [`llm-council`](./skills/llm-council/) | v1.0 | Passa sua decisão por 5 conselheiros de IA que analisam de ângulos opostos, se revisam às cegas e sintetizam um veredito. Método LLM Council do Karpathy. | `passa no conselho`, `convoca o conselho`, `põe à prova`, `devo fazer X ou Y`, `não consigo decidir`, `me dá várias perspectivas` |
 | [`oracle-diagnostic-lite`](./skills/oracle-diagnostic-lite/) | v1.0 | Faz 3-5 perguntas sobre seu negócio e devolve uma leitura de superfície: aponta em qual dimensão a tensão se concentra, sem prescrever a solução. | `diagnóstico grátis`, `onde meu negócio trava`, `qual meu gargalo`, `raio-x do negócio`, `por onde começo` |
+| [`nem-parece-ia`](./skills/nem-parece-ia/) | v1.0 | Revisa textos em PT-BR para remover cara de IA, lero-lero corporativo, falsa profundidade e cadência robótica sem apagar a voz do autor. | `não parecer IA`, `tira o lero-lero`, `deixa mais natural`, `revisa esse texto`, `humaniza em pt-br` |
 
 ## Instalar
 
@@ -22,12 +23,12 @@ Três caminhos, do mais rápido ao mais permanente. Valem pra qualquer skill da 
 
 ### 1. Testar agora — sem instalar (claude.ai, ChatGPT, Gemini)
 
-Abra o `SKILL.md` da skill que você quer ([`premortem`](./skills/premortem/SKILL.md) ou [`llm-council`](./skills/llm-council/SKILL.md)), copie o conteúdo inteiro, cole numa conversa nova e descreva sua decisão logo abaixo. A skill roda na hora. Zero setup, funciona em qualquer chat de IA.
+Abra o `SKILL.md` da skill que você quer ([`premortem`](./skills/premortem/SKILL.md), [`llm-council`](./skills/llm-council/SKILL.md), [`oracle-diagnostic-lite`](./skills/oracle-diagnostic-lite/SKILL.md) ou [`nem-parece-ia`](./skills/nem-parece-ia/SKILL.md)), copie o conteúdo inteiro, cole numa conversa nova e descreva sua demanda logo abaixo. A skill roda na hora. Zero setup, funciona em qualquer chat de IA.
 
 ### 2. Claude Code / Cowork — uma skill, sem clonar o repo
 
 ```bash
-SKILL=premortem   # ou: llm-council, oracle-diagnostic-lite
+SKILL=premortem   # ou: llm-council, oracle-diagnostic-lite, nem-parece-ia
 mkdir -p ~/.claude/skills/$SKILL
 curl -sL https://raw.githubusercontent.com/1marcelserrano/mscreative-skills/main/skills/$SKILL/SKILL.md \
   -o ~/.claude/skills/$SKILL/SKILL.md
@@ -41,7 +42,7 @@ curl -sL https://raw.githubusercontent.com/1marcelserrano/mscreative-skills/main
 git clone https://github.com/1marcelserrano/mscreative-skills.git
 cp -r mscreative-skills/skills/* ~/.claude/skills/        # todas as skills
 # ou só uma:
-cp -r mscreative-skills/skills/llm-council ~/.claude/skills/
+cp -r mscreative-skills/skills/nem-parece-ia ~/.claude/skills/
 ```
 
 Nos caminhos 2 e 3, reinicie a sessão do Claude. A skill dispara sozinha quando o contexto bate — ou chame pelo nome.
@@ -79,6 +80,16 @@ Um médico te olha por dois minutos no corredor e diz "isso é respiratório, va
 **O que entrega:** uma leitura curta — espelha o que você disse, nomeia a dimensão onde a tensão se concentra, e para aí. Localiza o cômodo onde está o incêndio. Não prescreve como apagar.
 
 **Por que funciona:** quase toda autoavaliação tenta resolver e se perde. Esta resiste ao reflexo de já dar a solução — só localiza. O limite é o que mantém a leitura honesta: ela sinaliza, não promete consertar seu negócio em três perguntas.
+
+### nem-parece-ia
+
+Uma revisão editorial para textos em português do Brasil que estão corretos, mas soam genéricos, inflados, artificiais ou parecidos com saída de IA. A skill corta abertura vazia, jargão corporativo, falsa profundidade, contraste performático, sujeito abstrato e ritmo robótico.
+
+**Quando usar:** posts, artigos, e-mails, textos institucionais, landing pages, propostas, apresentações e relatórios que precisam soar mais naturais, específicos e brasileiros. Dispara com "não parecer IA", "tira o lero-lero", "deixa mais natural" ou "revisa esse texto".
+
+**O que entrega:** diagnóstico dos vícios dominantes, versão revisada do texto, tabela de principais mudanças quando útil, e calibração por registro: social, ensaio, e-mail, institucional, técnico, acadêmico, comercial ou criativo.
+
+**Por que funciona:** a maioria das revisões tenta só trocar palavras. Esta separa o problema em frases, estruturas, ritmo, registro e exemplos. O resultado não é "texto humano fake"; é texto mais claro, mais específico e menos automático.
 
 ---
 
