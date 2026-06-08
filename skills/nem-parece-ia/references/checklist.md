@@ -14,6 +14,8 @@ Usar esta checklist quando a tarefa pedir revisão rápida, auditoria de artific
 | O texto empilha três adjetivos ou três benefícios? | Manter apenas os itens distintos e verificáveis. |
 | O texto termina com frase motivacional previsível? | Fechar com consequência, decisão, critério ou evidência. |
 | O texto soa traduzido do inglês? | Reescrever com sintaxe natural do português brasileiro. |
+| O texto faz afirmações que não chegam a consequência? | Aplicar o teste “E daí?”: após cada afirmação, perguntar “e daí?” até três vezes. Se não chega a uma consequência concreta para alguém, cortar ou aterrissar. |
+| O texto usa termo cunhado ou interno sem traduzir? | Aterrissar na primeira menção em meia linha, ou cortar (ver `hermetismo-ptbr.md`). |
 
 ## Ordem de edição
 
