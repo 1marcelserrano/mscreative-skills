@@ -16,6 +16,7 @@ Uma coleção curada de skills para o Claude (Claude Code, Cowork e claude.ai). 
 | [`llm-council`](./skills/llm-council/) | v1.0 | Passa sua decisão por 5 conselheiros de IA que analisam de ângulos opostos, se revisam às cegas e sintetizam um veredito. Método LLM Council do Karpathy. | `passa no conselho`, `convoca o conselho`, `põe à prova`, `devo fazer X ou Y`, `não consigo decidir`, `me dá várias perspectivas` |
 | [`oracle-diagnostic-lite`](./skills/oracle-diagnostic-lite/) | v1.0 | Faz 3-5 perguntas sobre seu negócio e devolve uma leitura de superfície: aponta em qual dimensão a tensão se concentra, sem prescrever a solução. | `diagnóstico grátis`, `onde meu negócio trava`, `qual meu gargalo`, `raio-x do negócio`, `por onde começo` |
 | [`nem-parece-ia`](./skills/nem-parece-ia/) | v1.0 | Revisa textos em PT-BR para remover cara de IA, lero-lero corporativo, falsa profundidade e cadência robótica sem apagar a voz do autor. | `não parecer IA`, `tira o lero-lero`, `deixa mais natural`, `revisa esse texto`, `humaniza em pt-br` |
+| [`geo-content-brief`](./skills/geo-content-brief/) | v1.0 | Transforma um keyword num brief que faz a página ranquear no Google e ser citada por AI Overviews, ChatGPT e Perplexity (GEO/AEO). Bimodal: brief para o redator ou gate de pré-publicação. | `preciso de um brief`, `otimizar para AI Overviews`, `vai ser citado por IA?`, `roda o gate`, `geo brief` |
 
 ## Instalar
 
@@ -23,12 +24,12 @@ Três caminhos, do mais rápido ao mais permanente. Valem pra qualquer skill da 
 
 ### 1. Testar agora — sem instalar (claude.ai, ChatGPT, Gemini)
 
-Abra o `SKILL.md` da skill que você quer ([`premortem`](./skills/premortem/SKILL.md), [`llm-council`](./skills/llm-council/SKILL.md), [`oracle-diagnostic-lite`](./skills/oracle-diagnostic-lite/SKILL.md) ou [`nem-parece-ia`](./skills/nem-parece-ia/SKILL.md)), copie o conteúdo inteiro, cole numa conversa nova e descreva sua demanda logo abaixo. A skill roda na hora. Zero setup, funciona em qualquer chat de IA.
+Abra o `SKILL.md` da skill que você quer ([`premortem`](./skills/premortem/SKILL.md), [`llm-council`](./skills/llm-council/SKILL.md), [`oracle-diagnostic-lite`](./skills/oracle-diagnostic-lite/SKILL.md), [`nem-parece-ia`](./skills/nem-parece-ia/SKILL.md) ou [`geo-content-brief`](./skills/geo-content-brief/SKILL.md)), copie o conteúdo inteiro, cole numa conversa nova e descreva sua demanda logo abaixo. A skill roda na hora. Zero setup, funciona em qualquer chat de IA.
 
 ### 2. Claude Code / Cowork — uma skill, sem clonar o repo
 
 ```bash
-SKILL=premortem   # ou: llm-council, oracle-diagnostic-lite, nem-parece-ia
+SKILL=premortem   # ou: llm-council, oracle-diagnostic-lite, nem-parece-ia, geo-content-brief
 mkdir -p ~/.claude/skills/$SKILL
 curl -sL https://raw.githubusercontent.com/1marcelserrano/mscreative-skills/main/skills/$SKILL/SKILL.md \
   -o ~/.claude/skills/$SKILL/SKILL.md
@@ -90,6 +91,16 @@ Uma revisão editorial para textos em português do Brasil que estão corretos, 
 **O que entrega:** diagnóstico dos vícios dominantes, versão revisada do texto, tabela de principais mudanças quando útil, e calibração por registro: social, ensaio, e-mail, institucional, técnico, acadêmico, comercial ou criativo.
 
 **Por que funciona:** a maioria das revisões tenta só trocar palavras. Esta separa o problema em frases, estruturas, ritmo, registro e exemplos. O resultado não é "texto humano fake"; é texto mais claro, mais específico e menos automático.
+
+### geo-content-brief
+
+A busca parou de terminar num clique e passou a terminar numa resposta gerada. Esta skill transforma um keyword num brief que faz a página ranquear no Google e — mais que isso — ser *citada* dentro de AI Overviews, ChatGPT, Perplexity e Gemini. Baseada no estudo GEO de Princeton (SIGKDD 2024) e em dados de citação de 2025-2026.
+
+**Quando usar:** quando você vai escrever, ou já escreveu, uma página que precisa ser encontrada e citada por IA — um artigo, uma página de produto, uma base de conhecimento. Dispara com "preciso de um brief de conteúdo", "como otimizo isso pra AI Overviews", "esse artigo vai ser citado?" ou "roda o gate".
+
+**O que entrega:** é bimodal. No modo Estratégia, um brief de 8 campos pronto pro redator — answer block, mapa de H2 a partir das PAA, edge defensável, sinal de E-E-A-T. No modo Produção, diagnostica um rascunho ou URL que já existe: reescreve o answer block, torna cada seção autocontida, gera o schema FAQPage e a entrada de llms.txt, e roda um gate de 5 pontos antes de publicar.
+
+**Por que funciona:** SEO clássico te faz clicável; GEO/AEO te faz citável. A skill ataca o que ganha citação segundo a evidência — resposta direta nos primeiros 150 tokens (de onde sai ~55% das citações), seções que se sustentam isoladas (passage ranking) e dado próprio. Estrutura, não floreio.
 
 ---
 
