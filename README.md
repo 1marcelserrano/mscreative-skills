@@ -17,6 +17,7 @@ Uma coleção curada de skills para o Claude (Claude Code, Cowork e claude.ai). 
 | [`oracle-diagnostic-lite`](./skills/oracle-diagnostic-lite/) | v1.0 | Faz 3-5 perguntas sobre seu negócio e devolve uma leitura de superfície: aponta em qual dimensão a tensão se concentra, sem prescrever a solução. | `diagnóstico grátis`, `onde meu negócio trava`, `qual meu gargalo`, `raio-x do negócio`, `por onde começo` |
 | [`nem-parece-ia`](./skills/nem-parece-ia/) | v1.0 | Revisa textos em PT-BR para remover cara de IA, lero-lero corporativo, falsa profundidade e cadência robótica sem apagar a voz do autor. | `não parecer IA`, `tira o lero-lero`, `deixa mais natural`, `revisa esse texto`, `humaniza em pt-br` |
 | [`geo-content-brief`](./skills/geo-content-brief/) | v1.0 | Transforma um keyword num brief que faz a página ranquear no Google e ser citada por AI Overviews, ChatGPT e Perplexity (GEO/AEO). Bimodal: brief para o redator ou gate de pré-publicação. | `preciso de um brief`, `otimizar para AI Overviews`, `vai ser citado por IA?`, `roda o gate`, `geo brief` |
+| [`first-setup`](./skills/first-setup/) | v1.0 | Te entrevista — uma pergunta por vez — e monta seu primeiro setup do Claude Cowork: gera os arquivos da camada pessoal (1 `claude.md` consolidado ou os 4 completos) direto na sua pasta. | `me entrevista pro meu primeiro setup`, `primeiro setup`, `montar meu setup`, `criar meu claude.md`, `quero que o Claude me conheça` |
 
 ## Instalar
 
@@ -24,18 +25,18 @@ Três caminhos, do mais rápido ao mais permanente. Valem pra qualquer skill da 
 
 ### 1. Testar agora — sem instalar (claude.ai, ChatGPT, Gemini)
 
-Abra o `SKILL.md` da skill que você quer ([`premortem`](./skills/premortem/SKILL.md), [`llm-council`](./skills/llm-council/SKILL.md), [`oracle-diagnostic-lite`](./skills/oracle-diagnostic-lite/SKILL.md), [`nem-parece-ia`](./skills/nem-parece-ia/SKILL.md) ou [`geo-content-brief`](./skills/geo-content-brief/SKILL.md)), copie o conteúdo inteiro, cole numa conversa nova e descreva sua demanda logo abaixo. A skill roda na hora. Zero setup, funciona em qualquer chat de IA.
+Abra o `SKILL.md` da skill que você quer ([`premortem`](./skills/premortem/SKILL.md), [`llm-council`](./skills/llm-council/SKILL.md), [`oracle-diagnostic-lite`](./skills/oracle-diagnostic-lite/SKILL.md), [`nem-parece-ia`](./skills/nem-parece-ia/SKILL.md), [`geo-content-brief`](./skills/geo-content-brief/SKILL.md) ou [`first-setup`](./skills/first-setup/SKILL.md)), copie o conteúdo inteiro, cole numa conversa nova e descreva sua demanda logo abaixo. A skill roda na hora. Zero setup, funciona em qualquer chat de IA.
 
 ### 2. Claude Code / Cowork — uma skill, sem clonar o repo
 
 ```bash
-SKILL=premortem   # ou: llm-council, oracle-diagnostic-lite, nem-parece-ia, geo-content-brief
+SKILL=premortem   # ou: llm-council, oracle-diagnostic-lite, nem-parece-ia, geo-content-brief, first-setup
 mkdir -p ~/.claude/skills/$SKILL
 curl -sL https://raw.githubusercontent.com/1marcelserrano/mscreative-skills/main/skills/$SKILL/SKILL.md \
   -o ~/.claude/skills/$SKILL/SKILL.md
 ```
 
-> Skills com pasta `references/` (como a `llm-council`) rodam melhor instaladas completas — use o caminho 3 pra trazer os arquivos de apoio junto.
+> Skills com pasta `references/` (como a `llm-council` e a `first-setup`) rodam melhor instaladas completas — use o caminho 3 pra trazer os arquivos de apoio junto.
 
 ### 3. Coleção inteira — clonar e copiar
 
@@ -101,6 +102,16 @@ A busca parou de terminar num clique e passou a terminar numa resposta gerada. E
 **O que entrega:** é bimodal. No modo Estratégia, um brief de 8 campos pronto pro redator — answer block, mapa de H2 a partir das PAA, edge defensável, sinal de E-E-A-T. No modo Produção, diagnostica um rascunho ou URL que já existe: reescreve o answer block, torna cada seção autocontida, gera o schema FAQPage e a entrada de llms.txt, e roda um gate de 5 pontos antes de publicar.
 
 **Por que funciona:** SEO clássico te faz clicável; GEO/AEO te faz citável. A skill ataca o que ganha citação segundo a evidência — resposta direta nos primeiros 150 tokens (de onde sai ~55% das citações), seções que se sustentam isoladas (passage ranking) e dado próprio. Estrutura, não floreio.
+
+### first-setup
+
+Todo chat novo com IA começa do zero: você reexplica quem é, o que faz, como escreve. O first-setup resolve isso uma vez. É um entrevistador de onboarding — faz uma pergunta por vez, pode partir das suas redes sociais como matéria-prima, e transforma suas respostas nos arquivos contextuais que o Claude lê toda vez que você abre uma conversa: o documento de onboarding do colaborador que sempre volta.
+
+**Quando usar:** no primeiro contato com o Claude Cowork ou Claude Code, ou quando quiser refazer o setup do zero. Dispara com "me entrevista pro meu primeiro setup", "quero que o Claude me conheça" ou "como faço o Claude lembrar de mim".
+
+**O que entrega:** dois degraus à escolha — mínimo viável (1 `claude.md` consolidado, ~10 minutos, 6 perguntas) ou estrutura completa (`about-me.md`, `writing-style.md`, `CLAUDE.md`, `PROJECTS.md`, ~20 minutos, entregues um por bloco). Cada arquivo chega com um cartão de 3 linhas: o que é, o que NÃO é, quando atualizar.
+
+**Por que funciona:** quase todo setup morre porque a pessoa tenta preencher 4 templates de uma vez e abandona na metade. A entrevista inverte o esforço — você só responde, uma pergunta por vez, e cada arquivo nasce logo depois do bloco que o alimenta. O cartão de entrega ensina a manter o setup vivo depois que a skill sai de cena.
 
 ---
 
