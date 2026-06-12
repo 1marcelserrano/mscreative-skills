@@ -1,12 +1,14 @@
 # mscreative-skills
 
-**Skills públicas da MSCREATIVE.SYSTEMS™ para o Claude. Ferramentas de decisão, em português.**
+**Skills públicas da MSCREATIVE.SYSTEMS™ para o Claude. Ferramentas pra pensar, decidir e escrever melhor — em português.**
 
 [Instalar](#instalar) • [Skills](#skills-disponíveis) • [As skills em detalhe](#as-skills-em-detalhe)
 
 ---
 
-Uma coleção curada de skills para o Claude (Claude Code, Cowork e claude.ai). Cada skill é uma ferramenta de pensamento — testada em uso real, escrita em PT-BR, sem firula. Instale a que precisar.
+Uma coleção curada de skills para o Claude (Claude Code, Cowork e claude.ai). Cada skill é uma ferramenta de raciocínio — testada em uso real, escrita em PT-BR, sem firula. Você instala a que precisar e ela dispara sozinha quando o contexto bate.
+
+**Por onde começar:** escreve e não quer soar como máquina? Vá direto pra [`nem-parece-ia`](./skills/nem-parece-ia/). Tem uma decisão cara pela frente? [`premortem`](./skills/premortem/) ou [`llm-council`](./skills/llm-council/). Sente o negócio travando mas não sabe onde? [`oracle-diagnostic-lite`](./skills/oracle-diagnostic-lite/).
 
 ## Skills disponíveis
 
