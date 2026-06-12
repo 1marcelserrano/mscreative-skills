@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard de Fases — Premortem mscreative-skills</title>
+<style>
+  :root{
+    --bg:#0a0e1a;--panel:#121829;--panel2:#0f1422;--ink:#e8ecf4;--muted:#8b94ad;
+    --line:#222b42;--accent:#5b8cff;--green:#3ddc84;--amber:#ffb33a;--tigre:#ff5a47;--elefante:#8c7ae6;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.55}
+  .wrap{max-width:1060px;margin:0 auto;padding:34px 20px 90px}
+  .kicker{letter-spacing:.22em;text-transform:uppercase;font-size:11px;color:var(--accent);font-weight:700}
+  h1{font-size:30px;margin:7px 0 4px;letter-spacing:-.5px}
+  .sub{color:var(--muted);font-size:14px}
+  /* topbar */
+  .topbar{display:grid;grid-template-columns:1.4fr 1fr;gap:14px;margin:24px 0 10px}
+  @media(max-width:760px){.topbar{grid-template-columns:1fr}}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+  .panel h3{margin:0 0 8px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .prog{height:12px;background:#0c1120;border:1px solid var(--line);border-radius:999px;overflow:hidden;margin:6px 0 8px}
+  .prog>i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--green));transition:width .35s}
+  .progtxt{font-size:13px;color:var(--muted)}
+  .northstar textarea{width:100%;min-height:54px;background:#0c1120;border:1px solid var(--line);
+    border-radius:8px;color:var(--ink);padding:9px 11px;font:inherit;font-size:14px;resize:vertical}
+  .northstar .hint{font-size:12px;color:var(--muted);margin-top:5px}
+  .role{margin:6px 0 18px;padding:11px 15px;background:var(--panel2);border-left:3px solid var(--elefante);
+    border-radius:6px;font-size:13.5px;color:#cdc6ef}
+  .role b{color:#d9d2ff}
+  /* macro */
+  .macro{margin:30px 0 12px;display:flex;align-items:center;gap:11px}
+  .macro .ml{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:700}
+  .macro .line{flex:1;height:1px;background:var(--line)}
+  /* phase card */
+  .phase{background:var(--panel);border:1px solid var(--line);border-radius:12px;margin-bottom:13px;overflow:hidden;
+    border-left:4px solid var(--line);transition:border-color .2s}
+  .phase[data-st="decidido"]{border-left-color:var(--amber)}
+  .phase[data-st="andamento"]{border-left-color:var(--accent)}
+  .phase[data-st="concluido"]{border-left-color:var(--green)}
+  .ph-head{display:flex;align-items:flex-start;gap:13px;padding:15px 18px;cursor:pointer}
+  .ph-num{flex:none;width:30px;height:30px;border-radius:8px;background:#1a2236;color:var(--accent);
+    font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center}
+  .ph-title{flex:1}
+  .ph-title h2{margin:0;font-size:16.5px;letter-spacing:-.2px}
+  .ph-meta{font-size:12.5px;color:var(--muted);margin-top:3px}
+  .ph-meta .skill{color:#8fb0ff}
+  .ph-meta .atk{color:#ff9183}
+  .stbadge{flex:none;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
+    padding:4px 11px;border-radius:7px;border:1px solid var(--line);color:var(--muted);background:#0c1120;white-space:nowrap}
+  .stbadge[data-st="pendente"]{color:var(--muted)}
+  .stbadge[data-st="andamento"]{color:#8fb0ff;border-color:#243a66;background:rgba(91,140,255,.1)}
+  .stbadge[data-st="decidido"]{color:var(--amber);border-color:#5a4318;background:rgba(255,179,58,.1)}
+  .stbadge[data-st="concluido"]{color:var(--green);border-color:#1c5238;background:rgba(61,220,132,.1)}
+  .ph-body{padding:0 18px 17px;display:none}
+  .phase.open .ph-body{display:block}
+  .ph-body .blk{margin-top:13px}
+  .ph-body .blk .t{font-size:11px;text-transform:uppercase;letter-spacing:.13em;color:var(--muted);margin-bottom:4px}
+  .ph-body .blk p{margin:0;font-size:14px;color:#cdd4e6}
+  .decision{background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:12px 14px;margin-top:13px}
+  .decision .q{font-size:14.5px;color:#fff;font-weight:600;margin-bottom:6px}
+  .decision .rec{font-size:13.5px;color:#bcd0a8}
+  .decision .rec b{color:var(--green)}
+  .yourdec{width:100%;min-height:46px;margin-top:9px;background:#0c1120;border:1px solid var(--line);
+    border-radius:8px;color:var(--ink);padding:9px 11px;font:inherit;font-size:13.5px;resize:vertical}
+  .stbtns{display:flex;gap:7px;flex-wrap:wrap;margin-top:13px}
+  .stbtns button{font:inherit;font-size:12.5px;padding:6px 12px;border-radius:7px;cursor:pointer;
+    background:#0c1120;border:1px solid var(--line);color:var(--muted);transition:.15s}
+  .stbtns button:hover{border-color:#3a4870;color:var(--ink)}
+  .stbtns button.on[data-v="andamento"]{color:#8fb0ff;border-color:#243a66;background:rgba(91,140,255,.13)}
+  .stbtns button.on[data-v="decidido"]{color:var(--amber);border-color:#5a4318;background:rgba(255,179,58,.13)}
+  .stbtns button.on[data-v="concluido"]{color:var(--green);border-color:#1c5238;background:rgba(61,220,132,.13)}
+  .stbtns button.on[data-v="pendente"]{color:var(--ink);border-color:#3a4870}
+  .artefato{font-size:12.5px;color:var(--muted);margin-top:11px}
+  .artefato b{color:#cdd4e6}
+  /* tripwires */
+  .trip{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-top:14px}
+  .trip h3{margin:0 0 10px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .trip ul{margin:0;padding-left:18px}
+  .trip li{font-size:13.5px;color:#cdd4e6;margin-bottom:7px}
+  .trip li b{color:var(--amber)}
+  .toolbar{display:flex;gap:9px;margin-top:26px;flex-wrap:wrap}
+  .toolbar button{font:inherit;font-size:13px;padding:8px 15px;border-radius:8px;cursor:pointer;
+    background:#0c1120;border:1px solid var(--line);color:var(--muted)}
+  .toolbar button:hover{color:var(--ink);border-color:#3a4870}
+  footer{margin-top:34px;border-top:1px solid var(--line);padding-top:16px;color:var(--muted);font-size:12.5px}
+  .saved{font-size:12px;color:var(--green);opacity:0;transition:opacity .3s}
+  .saved.show{opacity:1}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="kicker">Dashboard de Fases · padrão Orquestrador</div>
+  <h1>Premortem → Execução · mscreative-skills</h1>
+  <div class="sub">9 fases · cada uma com um ponto de decisão · estado salvo no seu navegador <span class="saved" id="saved">✓ salvo</span></div>
+
+  <div class="role">
+    <b>Como funciona:</b> eu (Claude) <b>orquestro e facilito</b> — em cada fase exponho a decisão,
+    minha recomendação e o artefato esperado. <b>Você decide</b> e registra a escolha. Marque o status
+    de cada fase; o progresso fica salvo neste navegador (localStorage).
+  </div>
+
+  <div class="topbar">
+    <div class="panel">
+      <h3>Progresso</h3>
+      <div class="prog"><i id="progbar"></i></div>
+      <div class="progtxt" id="progtxt">0 de 9 fases concluídas</div>
+    </div>
+    <div class="panel northstar">
+      <h3>★ Métrica-norte (sai da Fase 1)</h3>
+      <textarea id="northstar" placeholder="Ex.: nº de instalações rastreáveis da skill-vitrine em 90 dias"></textarea>
+      <div class="hint">Defina na Fase 1 e tudo abaixo serve a ela.</div>
+    </div>
+  </div>
+
+  <div id="phases"></div>
+
+  <div class="trip">
+    <h3>⚑ Tripwires (Fase 9 — decididos a frio)</h3>
+    <ul>
+      <li><b>30 dias</b> · descoberta — se o CTA da Fase 2/3 ficar abaixo do piso de cliques → o gargalo é canal, não produto: parar de polir skill, atacar distribuição.</li>
+      <li><b>60 dias</b> · ativação — se não houver 1 caso de uso de terceiro documentado → ativação quebrada: adicionar exemplos rodáveis antes de qualquer skill nova.</li>
+      <li><b>90 dias</b> · funil/foco — se a captura de e-mail ficar abaixo do piso → monetização indireta não fecha nesse formato: aceitar brand-play ou redesenhar a oferta.</li>
+    </ul>
+  </div>
+
+  <div class="toolbar">
+    <button onclick="expandAll(true)">Expandir tudo</button>
+    <button onclick="expandAll(false)">Recolher tudo</button>
+    <button onclick="resetAll()">Resetar progresso</button>
+  </div>
+
+  <footer>
+    Dashboard gerado pelo padrão <b>orquestrador</b> a partir do premortem de 12/06/2026.
+    Estado persistido localmente — nada sai do seu navegador. MSCREATIVE.SYSTEMS™.
+  </footer>
+
+</div>
+
+<script>
+const PHASES = [
+  { macro:"A · Direção", n:1, title:"A Decisão de Foco", atk:"#4 Foco difuso (Elefante)", skill:"llm-council",
+    obj:"Escolher 1 objetivo primário pros 90 dias — os outros 3 viram efeitos de segunda ordem.",
+    q:"Qual é o objetivo PRIMÁRIO: adoção real, tração OSS, distribuição de marca ou monetização indireta?",
+    rec:"Recomendo distribuição de marca + adoção (se reforçam); largar 'stars' como vaidade. O conselho confirma ou contesta.",
+    art:"Doc \"FOCO 90 DIAS\" + a métrica-norte (input de todas as fases)." },
+  { macro:"B · Demanda & Descoberta", n:2, title:"O Menor Experimento de Distribuição", atk:"#1 Descoberta · #3 Mercado PT-BR", skill:"nem-parece-ia",
+    obj:"Testar a premissa 'qualidade basta' com o menor experimento (~R$0) em 14 dias.",
+    q:"Qual skill-vitrine, qual caso real e qual canal (não o GitHub) pro primeiro teste?",
+    rec:"Recomendo premortem ou nem-parece-ia como vitrine (mais demonstráveis), 1 caso de 60-90s, no canal onde sua audiência PT-BR já está.",
+    art:"Roteiro da peça + CTA rastreável + plano de publicação + tripwire de 14 dias." },
+  { macro:"B · Demanda & Descoberta", n:3, title:"O Motor de Conteúdo", atk:"#1 Descoberta (contínuo)", skill:"geo-content-brief + nem-parece-ia",
+    obj:"Transformar a peça única num motor de 2 semanas que cobre a coleção.",
+    q:"Quais peças viram também páginas (acháveis/citáveis por IA) e quais ficam só sociais?",
+    rec:"Recomendo brief GEO nas peças que viram artigo/página; passar toda copy social pela nem-parece-ia.",
+    art:"Calendário de 2 semanas (dia/skill/formato/gancho/CTA/brief)." },
+  { macro:"C · Conversão & Retenção", n:4, title:"O Ponto de Captura / Funil", atk:"#2 Funil sem captura", skill:"nem-parece-ia",
+    obj:"Consertar a aritmética do funil sem matar a adoção com atrito.",
+    q:"Onde e como capturar (README, rodapé dos HTMLs, e-mails) sem virar muro?",
+    rec:"Recomendo captura suave: bloco de valor no README + link rastreável no rodapé dos HTMLs gerados + 3 e-mails de boas-vindas.",
+    art:"Bloco de README + snippet de rodapé HTML + sequência de 3 e-mails." },
+  { macro:"C · Conversão & Retenção", n:5, title:"Ativação: ver antes de instalar", atk:"#5 Ativação · #8 Qualidade · meta-elefante", skill:"nem-parece-ia",
+    obj:"Reduzir o atrito de ativação e resolver as references que não viajam.",
+    q:"O que mostrar no topo de cada README, em que ordem, e references inline ou caminho completo?",
+    rec:"Recomendo output de exemplo no topo de cada skill, vitrine liderada por premortem + nem-parece-ia, e embutir o essencial das references inline.",
+    art:"Template de README + ordem de vitrine + decisão de references por skill." },
+  { macro:"D · Robustez & Refino", n:6, title:"CI anti-drift", atk:"#6 Drift", skill:"— (técnico)",
+    obj:"Pegar quebras de formato/caminho antes que alguém descubra na mão.",
+    q:"Validar só o frontmatter, ou também caminhos de instalação e consistência README↔repo?",
+    rec:"Recomendo validar frontmatter + nome-da-pasta + caminhos citados no README, falhando o check com mensagem clara.",
+    art:".github/workflows/validate-skills.yml + validador auxiliar." },
+  { macro:"D · Robustez & Refino", n:7, title:"Licença e posicionamento OSS", atk:"#7 Commons Clause", skill:"llm-council",
+    obj:"Resolver se a licença atrita o objetivo primário escolhido na Fase 1.",
+    q:"Manter MIT + Commons Clause ou migrar pra MIT puro?",
+    rec:"Depende da Fase 1: se tração OSS for primária, pende pra MIT puro; se marca/monetização, a Commons Clause protege. O conselho decide com o FOCO em mãos.",
+    art:"Decisão documentada + cabeçalho LICENSE/NOTICE reescrito." },
+  { macro:"D · Robustez & Refino", n:8, title:"Premortem por skill: os 6 fixes", atk:"os 6 premortems individuais", skill:"a skill de cada caso",
+    obj:"Aplicar 1 edição concreta em cada skill conforme seu modo de falha próprio.",
+    q:"Aprovar os 6 diffs (premortem/llm-council/oracle/nem-parece-ia/geo/cowork) um a um?",
+    rec:"Recomendo rodar os 6 sub-prompts do Elo 8 e revisar cada diff antes de aplicar.",
+    art:"6 diffs prontos pra aplicar, um por skill." },
+  { macro:"E · Loop", n:9, title:"Fechar o loop: tripwires + re-premortem", atk:"todos (verificação)", skill:"premortem",
+    obj:"Travar os gatilhos datados e a condição de rodar o premortem de novo.",
+    q:"Quais pisos numéricos pros tripwires de 30/60/90 dias e qual gatilho de re-premortem?",
+    rec:"Recomendo definir os pisos a frio agora e re-rodar o premortem ao furar 2 dos 3 tripwires ou antes de lançar oferta paga.",
+    art:"Painel de tripwires preenchido (já esboçado acima) + gatilho de re-premortem." },
+];
+const STATUSES = [["pendente","Pendente"],["andamento","Em decisão"],["decidido","Decidido"],["concluido","Concluído"]];
+const KEY = "orq-premortem-mscreative-v1";
+let state = load();
+
+function load(){ try{ return JSON.parse(localStorage.getItem(KEY)) || {}; }catch(e){ return {}; } }
+function save(){ localStorage.setItem(KEY, JSON.stringify(state)); flash(); render(); }
+function flash(){ const s=document.getElementById("saved"); s.classList.add("show"); setTimeout(()=>s.classList.remove("show"),900); }
+
+function setStatus(n,v){ state["st"+n]=v; if(v==="concluido"&&!state["open"+n]){} save(); }
+function setDec(n,v){ state["dec"+n]=v; localStorage.setItem(KEY,JSON.stringify(state)); flash(); }
+function toggleOpen(n){ state["open"+n]=!state["open"+n]; localStorage.setItem(KEY,JSON.stringify(state)); render(); }
+function setNorth(v){ state.north=v; localStorage.setItem(KEY,JSON.stringify(state)); flash(); }
+function expandAll(o){ PHASES.forEach(p=>state["open"+p.n]=o); save(); }
+function resetAll(){ if(confirm("Resetar todo o progresso salvo neste navegador?")){ state={}; save(); } }
+
+function render(){
+  const root=document.getElementById("phases"); root.innerHTML="";
+  let lastMacro=null;
+  PHASES.forEach(p=>{
+    if(p.macro!==lastMacro){
+      const m=document.createElement("div"); m.className="macro";
+      m.innerHTML=`<span class="ml">${p.macro}</span><span class="line"></span>`;
+      root.appendChild(m); lastMacro=p.macro;
+    }
+    const st=state["st"+p.n]||"pendente";
+    const open=state["open"+p.n]?" open":"";
+    const dec=state["dec"+p.n]||"";
+    const card=document.createElement("div");
+    card.className="phase"+open; card.dataset.st=st;
+    const stLabel=STATUSES.find(s=>s[0]===st)[1];
+    card.innerHTML=`
+      <div class="ph-head" onclick="toggleOpen(${p.n})">
+        <div class="ph-num">${p.n}</div>
+        <div class="ph-title">
+          <h2>${p.title}</h2>
+          <div class="ph-meta">ataca <span class="atk">${p.atk}</span> · skill <span class="skill">${p.skill}</span></div>
+        </div>
+        <div class="stbadge" data-st="${st}">${stLabel}</div>
+      </div>
+      <div class="ph-body">
+        <div class="blk"><div class="t">Objetivo da fase</div><p>${p.obj}</p></div>
+        <div class="decision">
+          <div class="q">Decisão sua: ${p.q}</div>
+          <div class="rec">${p.rec}</div>
+          <textarea class="yourdec" placeholder="Registre aqui a sua decisão…" oninput="setDec(${p.n}, this.value)">${dec.replace(/</g,"&lt;")}</textarea>
+        </div>
+        <div class="stbtns">
+          ${STATUSES.map(s=>`<button class="${st===s[0]?'on':''}" data-v="${s[0]}" onclick="setStatus(${p.n},'${s[0]}')">${s[1]}</button>`).join("")}
+        </div>
+        <div class="artefato">Artefato esperado: <b>${p.art}</b></div>
+      </div>`;
+    root.appendChild(card);
+  });
+  const done=PHASES.filter(p=>state["st"+p.n]==="concluido").length;
+  document.getElementById("progbar").style.width=(done/PHASES.length*100)+"%";
+  document.getElementById("progtxt").textContent=`${done} de ${PHASES.length} fases concluídas`;
+  const nt=document.getElementById("northstar"); if(nt.value!==(state.north||"")) nt.value=state.north||"";
+}
+document.getElementById("northstar").addEventListener("input",e=>setNorth(e.target.value));
+render();
+</script>
+</body>
+</html>
