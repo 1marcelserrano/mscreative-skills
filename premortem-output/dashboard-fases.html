@@ -190,7 +190,15 @@ const PHASES = [
 ];
 const STATUSES = [["pendente","Pendente"],["andamento","Em decisão"],["decidido","Decidido"],["concluido","Concluído"]];
 const KEY = "orq-premortem-mscreative-v1";
+// Semente: a Fase 1 já foi decidida (12/06/2026). Aplicada só se não houver estado salvo.
+const SEED = {
+  north: "Nº de instalações/ativações rastreáveis das skills vindas do canal próprio, em 90 dias (métrica-guarda: e-mails capturados).",
+  st1: "concluido",
+  open1: true,
+  dec1: "DECIDIDO 12/06: foco em ADOÇÃO REAL (via distribuição + captura). Tese a comprovar: qualidade gera adoção — skills boas são instaladas e usadas por estranhos quando vistas. Marca = método (o canal); tração OSS e monetização = segunda ordem. Ver foco-90-dias.md."
+};
 let state = load();
+if (Object.keys(state).length === 0) { state = { ...SEED }; localStorage.setItem(KEY, JSON.stringify(state)); }
 
 function load(){ try{ return JSON.parse(localStorage.getItem(KEY)) || {}; }catch(e){ return {}; } }
 function save(){ localStorage.setItem(KEY, JSON.stringify(state)); flash(); render(); }
