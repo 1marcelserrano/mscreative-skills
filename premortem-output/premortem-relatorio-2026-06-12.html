@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Premortem — mscreative-skills</title>
+<style>
+  :root{
+    --bg:#0a0e1a; --panel:#121829; --panel2:#0f1422; --ink:#e8ecf4; --muted:#8b94ad;
+    --line:#222b42; --tigre:#ff5a47; --tigre2:#ff8c42; --papel:#c9a227; --elefante:#8c7ae6;
+    --green:#3ddc84; --accent:#5b8cff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.6;font-size:16px}
+  .wrap{max-width:1040px;margin:0 auto;padding:40px 22px 80px}
+  header.top{border-bottom:1px solid var(--line);padding-bottom:24px;margin-bottom:34px}
+  .kicker{letter-spacing:.22em;text-transform:uppercase;font-size:12px;color:var(--accent);font-weight:700}
+  h1{font-size:34px;margin:8px 0 6px;line-height:1.15;letter-spacing:-.5px}
+  .sub{color:var(--muted);font-size:15px}
+  .frame{margin-top:18px;padding:14px 18px;background:var(--panel2);border-left:3px solid var(--tigre);
+    border-radius:6px;font-size:15px;color:#d6c2bd}
+  h2.section{font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);
+    margin:48px 0 18px;font-weight:700;border-bottom:1px solid var(--line);padding-bottom:8px}
+  .synth{display:grid;gap:14px}
+  .srow{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px 18px}
+  .srow h3{margin:0 0 6px;font-size:15px;color:#fff;display:flex;align-items:center;gap:9px}
+  .srow .n{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;
+    border-radius:6px;background:#1c2540;color:var(--accent);font-size:12px;font-weight:700;flex:none}
+  .srow p{margin:0;color:#c7cee0;font-size:14.5px}
+  .srow.hot{border-color:#46241f;background:linear-gradient(180deg,#16100f,#121829)}
+  .srow.gold{border-color:#332b12}
+  .conf{display:flex;align-items:center;gap:22px;flex-wrap:wrap;background:var(--panel);
+    border:1px solid var(--line);border-radius:12px;padding:22px 24px}
+  .conf .big{font-size:40px;font-weight:800;letter-spacing:-1px}
+  .conf .arrow{font-size:26px;color:var(--muted)}
+  .conf .lab{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.12em}
+  .conf .note{flex:1;min-width:240px;color:#c7cee0;font-size:14px}
+  /* matrix */
+  .matrix{position:relative;margin-top:8px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:8px;
+    aspect-ratio:1/.72;min-height:340px}
+  .cell{border:1px solid var(--line);border-radius:10px;padding:12px;position:relative;overflow:hidden}
+  .cell .q{position:absolute;top:8px;right:12px;font-size:11px;color:var(--muted);
+    text-transform:uppercase;letter-spacing:.1em}
+  .cell.hi{background:rgba(255,90,71,.07);border-color:#46241f}
+  .cell.lo{background:rgba(255,255,255,.015)}
+  .chip{display:inline-block;margin:3px 4px 0 0;padding:3px 9px;border-radius:999px;font-size:12px;
+    font-weight:600;border:1px solid transparent}
+  .chip.t{background:rgba(255,90,71,.16);color:#ff9183;border-color:#5e2a24}
+  .chip.p{background:rgba(201,162,39,.15);color:#e3c95f;border-color:#4a3f17}
+  .axis-x{text-align:center;color:var(--muted);font-size:12px;margin-top:8px;letter-spacing:.06em}
+  .axis-y{position:absolute;left:-30px;top:50%;transform:rotate(-90deg) translateX(50%);
+    transform-origin:left;color:var(--muted);font-size:12px;letter-spacing:.06em;white-space:nowrap}
+  /* agent grid */
+  .agents{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+  .agent{background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:12px 13px;font-size:13px}
+  .agent .dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:7px}
+  .agent .scope{color:var(--muted);font-size:12px;margin-top:3px}
+  /* cards */
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:0;margin-bottom:18px;overflow:hidden}
+  .card .head{padding:16px 20px;border-bottom:1px solid var(--line);display:flex;gap:12px;align-items:flex-start}
+  .card .head .lead{flex:1}
+  .card h3{margin:0;font-size:17px;color:#fff;letter-spacing:-.2px}
+  .card .body{padding:16px 20px;display:grid;gap:13px}
+  .card .blk .t{font-size:11px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);margin-bottom:3px}
+  .card .blk p{margin:0;font-size:14.5px;color:#cdd4e6}
+  .badge{display:inline-block;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700;
+    text-transform:uppercase;letter-spacing:.06em;flex:none}
+  .b-block{background:rgba(255,90,71,.16);color:#ff8475;border:1px solid #5e2a24}
+  .b-fast{background:rgba(255,140,66,.15);color:#ffac6e;border:1px solid #5a3a1e}
+  .b-mon{background:rgba(91,140,255,.13);color:#8fb0ff;border:1px solid #243a66}
+  .tag{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:3px 9px;border-radius:6px}
+  .tag.tigre{background:rgba(255,90,71,.16);color:#ff8475}
+  .tag.papel{background:rgba(201,162,39,.15);color:#e3c95f}
+  .tag.elefante{background:rgba(140,122,230,.16);color:#b3a6f0}
+  .card.tigre{border-left:4px solid var(--tigre)}
+  .card.papel{border-left:4px solid var(--papel)}
+  .card.elefante{border-left:4px solid var(--elefante)}
+  .trip{background:var(--panel2);border:1px dashed #34406b;border-radius:8px;
+    padding:10px 13px;font-size:13.5px;color:#b9c2da}
+  .trip b{color:#e8ecf4}
+  /* sub-skills */
+  .skillcard{background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:16px 18px;margin-bottom:14px}
+  .skillcard h3{margin:0 0 2px;font-size:16px;color:#fff;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .skillcard .ver{font-size:11px;color:var(--muted);border:1px solid var(--line);border-radius:5px;padding:1px 7px}
+  .skillcard .row{margin-top:9px}
+  .skillcard .row .t{font-size:11px;text-transform:uppercase;letter-spacing:.13em;color:var(--muted)}
+  .skillcard .row p{margin:1px 0 0;font-size:14px;color:#cdd4e6}
+  .meta-elefante{background:linear-gradient(180deg,#16122a,#121829);border:1px solid #2c2550;
+    border-left:4px solid var(--elefante);border-radius:12px;padding:18px 20px;margin-top:6px}
+  .meta-elefante h3{margin:0 0 7px;color:#cabfff;font-size:16px}
+  .meta-elefante p{margin:0;color:#d3cdf0;font-size:14.5px}
+  footer{margin-top:54px;border-top:1px solid var(--line);padding-top:20px;color:var(--muted);font-size:13px}
+  .lede{color:#c7cee0;font-size:15px;max-width:760px}
+  a{color:var(--accent)}
+  @media(max-width:620px){h1{font-size:27px}.grid2{min-height:300px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div class="kicker">Premortem · método Gary Klein</div>
+    <h1>mscreative-skills</h1>
+    <div class="sub">Coleção pública de 6 skills PT-BR para o Claude · MSCREATIVE.SYSTEMS™</div>
+    <div class="sub" style="margin-top:4px">Data: 12/06/2026 · Horizonte de falha: 3–6 meses · Sucesso = adoção real + tração OSS + distribuição de marca + monetização indireta</div>
+    <div class="frame">
+      <b>Enquadramento:</b> é dezembro de 2026. A coleção falhou nas quatro frentes — ninguém
+      adota de verdade, não pegou tração, não virou distribuição de marca e não gerou um único
+      lead pago. O repo está parado. Estamos olhando pra trás pra entender o que a matou.
+    </div>
+  </header>
+
+  <!-- SÍNTESE -->
+  <h2 class="section">Síntese — leia isto primeiro</h2>
+  <div class="synth">
+
+    <div class="srow hot">
+      <h3><span class="n">1</span> A falha mais provável</h3>
+      <p><b>Descoberta zero.</b> O repo existe, as skills são genuinamente boas, e ninguém sabe
+      que existe. Open source não distribui sozinho. Sem um motor de distribuição (conteúdo, fios,
+      comunidade, awesome-lists), 6 skills num repo PT-BR ficam invisíveis num ecossistema de
+      descoberta dominado pelo inglês. "Build it and they will come" é a causa-mãe.</p>
+    </div>
+
+    <div class="srow hot">
+      <h3><span class="n">2</span> A falha mais perigosa</h3>
+      <p><b>Funil de monetização sem nenhum ponto de captura.</b> O objetivo "monetização indireta"
+      não tem mecanismo. As skills rodam localmente, geram HTML na máquina do usuário, e não há
+      um único CTA, e-mail ou link de volta pro MSCREATIVE dentro do output. Não é um risco — é
+      uma impossibilidade por construção: zero pontos de conversão = zero conversão. É a mais
+      perigosa porque o autor pode passar 6 meses achando que "está construindo audiência" sem
+      nenhum mecanismo que transforme uso em relacionamento.</p>
+    </div>
+
+    <div class="srow gold">
+      <h3><span class="n">3</span> A premissa oculta <span class="tag elefante" style="margin-left:6px">red-team</span></h3>
+      <p><b>"Skills excelentes se distribuem sozinhas — a qualidade é o gargalo."</b> O autor
+      investiu pesado em qualidade de conteúdo (e acertou: as skills são boas). Mas o gargalo dos
+      quatro objetivos não é qualidade — é <i>distribuição e funil</i>. A tese "se eu fizer skills
+      excelentes em PT-BR, adoção + tração + marca + monetização vêm" é provavelmente falsa: cada
+      um desses quatro depende de um motor que o repo não tem.</p>
+    </div>
+
+    <div class="srow">
+      <h3><span class="n">4</span> A visão de fora (base rate)</h3>
+      <p>Coleções de prompts/skills sem motor de distribuição: a esmagadora maioria fica abaixo de
+      ~50 stars e gera receita zero. Estimo que <b>~5–10%</b> dos repos de "skills/prompts" pegam
+      tração real — e quase todos os que pegam têm autor com audiência prévia ou canal ativo.
+      Conversão de OSS gratuito → oferta paga <i>sem ponto de captura</i>: na prática <b>~0%</b>.
+      Estimativas grosseiras, mas a direção é clara: o mérito interno não muda a classe de referência.</p>
+    </div>
+
+    <div class="srow">
+      <h3><span class="n">5</span> O plano revisado <span class="tag tigre" style="margin-left:6px">menor experimento primeiro</span></h3>
+      <p><b>(a)</b> Escolha <b>UM</b> objetivo primário pros próximos 90 dias — recomendo
+      distribuição de marca + adoção (se reforçam); largue "stars" como métrica de vaidade.
+      <b>(b) Menor experimento falsificador (≈R$0):</b> pegue a skill mais forte (premortem ou
+      nem-parece-ia), grave 1 vídeo/fio de um caso real rodando, publique onde sua audiência PT-BR
+      está, com <b>um</b> CTA rastreável. Meça cliques/instalações em 14 dias — isso testa a premissa
+      "qualidade basta". <b>(c)</b> Adicione um ponto de captura: link no topo do README e no rodapé
+      do HTML gerado ("feito com mscreative-skills — receba as próximas em [newsletter]"). <b>(d)</b>
+      GIF de output no topo do README de cada skill (ver antes de instalar). <b>(e)</b> CI mínimo que
+      valida o frontmatter YAML e os caminhos de instalação contra drift.</p>
+    </div>
+
+    <div class="srow">
+      <h3><span class="n">6</span> Os tripwires</h3>
+      <p>• <b>30 dias</b> após o 1º post de distribuição sem passar de um piso de cliques/instalações
+      rastreáveis → o gargalo é canal/oferta, não produto: pare de polir skills, ataque distribuição.<br>
+      • <b>60 dias</b> sem nenhum caso de uso de terceiro documentado (issue, menção, DM) → a ativação
+      está quebrada: adicione exemplos rodáveis antes de qualquer skill nova.<br>
+      • <b>90 dias</b> com captura de e-mail abaixo de um piso mínimo → monetização indireta não é
+      viável nesse formato: ou aceita o repo como puro brand-play, ou redesenha a oferta.</p>
+    </div>
+
+    <div class="srow gold">
+      <h3><span class="n">7</span> O elefante</h3>
+      <p>O objetivo emocionalmente investido é <b>"o repo como vitrine do MSCREATIVE"</b>. O que o
+      autor evita encarar: vitrine sem motor de distribuição e sem ponto de captura é vitrine numa
+      rua vazia. O elefante real é que <b>o produto (as skills) já está pronto, e o trabalho que
+      sobra — distribuição e funil — é o chato/assustador, e é exatamente onde os quatro objetivos
+      moram.</b> Construir mais skills é fuga produtiva; o gargalo está fora do código.</p>
+    </div>
+
+  </div>
+
+  <!-- CONFIANÇA -->
+  <h2 class="section">Confiança — antes → depois</h2>
+  <div class="conf">
+    <div>
+      <div class="lab">Inicial</div>
+      <div class="big" style="color:var(--muted)">—</div>
+    </div>
+    <div class="arrow">→</div>
+    <div>
+      <div class="lab">Após o premortem</div>
+      <div class="big" style="color:var(--tigre2)">recalibre</div>
+    </div>
+    <div class="note">A confiança inicial não foi capturada em número. Re-pergunte agora a você mesmo:
+      <i>de 0 a 100%, quanta confiança de que isto bate os quatro objetivos em 6 meses?</i> Se o número
+      caiu depois de ler a síntese — ótimo. O delta é o valor do premortem: você viu o buraco de
+      distribuição/funil <b>antes</b> de gastar mais 6 meses construindo skills que ninguém acha.</div>
+  </div>
+
+  <!-- MATRIZ -->
+  <h2 class="section">Matriz Probabilidade × Impacto</h2>
+  <div class="matrix">
+    <div class="axis-y">Impacto →</div>
+    <div class="grid2">
+      <div class="cell hi"><span class="q">Alta prob · Alto impacto</span>
+        <div style="margin-top:26px">
+          <span class="chip t">#1 Descoberta zero</span>
+          <span class="chip t">#2 Funil sem captura</span>
+          <span class="chip t">#4 Foco difuso (4 metas)</span>
+        </div>
+      </div>
+      <div class="cell lo"><span class="q">Baixa prob · Alto impacto</span>
+        <div style="margin-top:26px">
+          <span class="chip t">#3 Mercado PT-BR pequeno</span>
+        </div>
+      </div>
+      <div class="cell lo"><span class="q">Alta prob · Baixo impacto</span>
+        <div style="margin-top:26px">
+          <span class="chip t">#5 Ativação fraca</span>
+          <span class="chip p">#8 Qualidade desigual</span>
+        </div>
+      </div>
+      <div class="cell lo"><span class="q">Baixa prob · Baixo impacto</span>
+        <div style="margin-top:26px">
+          <span class="chip t">#6 Drift / manutenção</span>
+          <span class="chip p">#7 Licença Commons Clause</span>
+        </div>
+      </div>
+    </div>
+    <div class="axis-x">← Baixa &nbsp;·&nbsp; Probabilidade &nbsp;·&nbsp; Alta →</div>
+  </div>
+  <p class="lede" style="margin-top:14px">O canto superior-esquerdo (alta prob × alto impacto) é
+  prioridade absoluta: <b>descoberta</b>, <b>funil</b> e <b>foco difuso</b>. Resolva esses três
+  antes de tocar em qualquer outra coisa.</p>
+
+  <!-- AGENTES -->
+  <h2 class="section">Varredura — 8 modos de falha + red-team</h2>
+  <div class="agents">
+    <div class="agent"><span class="dot" style="background:var(--tigre)"></span>Descoberta<div class="scope">Distribuição / discovery</div></div>
+    <div class="agent"><span class="dot" style="background:var(--tigre)"></span>Funil<div class="scope">Captura / monetização</div></div>
+    <div class="agent"><span class="dot" style="background:var(--tigre)"></span>Mercado<div class="scope">PT-BR vs. ecossistema</div></div>
+    <div class="agent"><span class="dot" style="background:var(--elefante)"></span>Foco<div class="scope">4 metas em conflito</div></div>
+    <div class="agent"><span class="dot" style="background:var(--tigre)"></span>Ativação<div class="scope">Onboarding / prova</div></div>
+    <div class="agent"><span class="dot" style="background:var(--tigre2)"></span>Drift<div class="scope">Manutenção / formato</div></div>
+    <div class="agent"><span class="dot" style="background:var(--papel)"></span>Licença<div class="scope">Commons Clause</div></div>
+    <div class="agent"><span class="dot" style="background:var(--papel)"></span>Qualidade<div class="scope">Variância entre skills</div></div>
+    <div class="agent"><span class="dot" style="background:#fff"></span>Red-team<div class="scope">Ataque à premissa</div></div>
+  </div>
+
+  <!-- CARDS -->
+  <h2 class="section">Modos de falha — em detalhe</h2>
+
+  <!-- TIGRE 1 -->
+  <div class="card tigre">
+    <div class="head">
+      <div class="lead"><h3>#1 · Descoberta zero — "build it and they will come"</h3></div>
+      <span class="tag tigre">Tigre</span>
+      <span class="badge b-block">Bloqueia-Lançamento</span>
+    </div>
+    <div class="body">
+      <div class="blk"><div class="t">A história da falha</div>
+        <p>O repo foi publicado, anunciado uma vez, e depois ficou esperando. Sem fios mostrando as
+        skills rodando, sem presença nas listas onde devs procuram skills do Claude, sem cadência de
+        conteúdo. Os poucos que chegaram vieram de um link solto que não converteu em hábito. Em 3
+        meses o tráfego orgânico do GitHub é ruído estatístico. A qualidade das skills nunca foi o
+        problema — elas simplesmente nunca foram vistas.</p></div>
+      <div class="blk"><div class="t">A premissa subjacente</div>
+        <p>Que publicar é distribuir. Não é — publicar é só tornar disponível.</p></div>
+      <div class="blk"><div class="t">Probabilidade × Impacto</div>
+        <p><b>Alta × Alto.</b> É o destino default de quase todo repo de skills/prompts sem canal.</p></div>
+      <div class="trip"><b>Tripwire:</b> se até 30 dias após o 1º conteúdo de distribuição o repo não
+        passar de um piso de cliques rastreáveis, o gargalo é canal — pare de construir, distribua.</div>
+    </div>
+  </div>
+
+  <!-- TIGRE 2 -->
+  <div class="card tigre">
+    <div class="head">
+      <div class="lead"><h3>#2 · Funil de monetização sem ponto de captura</h3></div>
+      <span class="tag tigre">Tigre</span>
+      <span class="badge b-block">Bloqueia-Lançamento</span>
+    </div>
+    <div class="body">
+      <div class="blk"><div class="t">A história da falha</div>
+        <p>As skills foram usadas — talvez até bastante. Cada execução gerou um HTML lindo na máquina
+        do usuário, com "Forjado na MSCREATIVE.SYSTEMS" num rodapé que ninguém clica. Nenhum e-mail
+        capturado, nenhuma lista, nenhum CTA pro próximo passo. Quando o autor olhou pra monetização
+        indireta, descobriu que não havia ninguém pra quem falar: o uso aconteceu e evaporou. O funil
+        nunca existiu — só a ilusão de que "uso vira relacionamento" por osmose.</p></div>
+      <div class="blk"><div class="t">A premissa subjacente</div>
+        <p>Que uso gratuito gera, sozinho, um relacionamento monetizável. Sem ponto de captura, não gera.</p></div>
+      <div class="blk"><div class="t">Probabilidade × Impacto</div>
+        <p><b>Alta × Alto.</b> É determinístico: a aritmética do funil tem zero entradas.</p></div>
+      <div class="trip"><b>Tripwire:</b> se até 90 dias a captura de e-mail estiver abaixo de um piso
+        mínimo, monetização indireta não fecha nesse formato — aceite o repo como brand-play ou redesenhe.</div>
+    </div>
+  </div>
+
+  <!-- TIGRE 3 -->
+  <div class="card tigre">
+    <div class="head">
+      <div class="lead"><h3>#3 · Mercado-alvo estruturalmente pequeno (PT-BR no GitHub global)</h3></div>
+      <span class="tag tigre">Tigre</span>
+      <span class="badge b-mon">Monitorar</span>
+    </div>
+    <div class="body">
+      <div class="blk"><div class="t">A história da falha</div>
+        <p>As skills em português competiram por descoberta num ecossistema onde awesome-lists, threads
+        de skills e o próprio algoritmo de busca do GitHub são anglófonos. A audiência PT-BR que usa
+        Claude Code/Cowork é um nicho dentro de um nicho — e o Cowork ainda é novo e pequeno. O teto de
+        alcance orgânico bateu cedo, não por má qualidade, mas por restrição de mercado.</p></div>
+      <div class="blk"><div class="t">A premissa subjacente</div>
+        <p>Que o mercado PT-BR de usuários avançados de Claude é grande o bastante pros quatro objetivos.</p></div>
+      <div class="blk"><div class="t">Probabilidade × Impacto</div>
+        <p><b>Média × Alto.</b> Restrição estrutural — não dá pra "consertar", só pra contornar com canal próprio.</p></div>
+      <div class="trip"><b>Tripwire:</b> se a tração depender 100% de descoberta orgânica no GitHub, ela
+        não virá — o PT-BR exige distribuição via canal próprio (audiência), não busca passiva.</div>
+    </div>
+  </div>
+
+  <!-- TIGRE 4 / ELEFANTE -->
+  <div class="card elefante">
+    <div class="head">
+      <div class="lead"><h3>#4 · Quatro objetivos em conflito dispersam o foco</h3></div>
+      <span class="tag elefante">Elefante</span>
+      <span class="badge b-block">Bloqueia-Lançamento</span>
+    </div>
+    <div class="body">
+      <div class="blk"><div class="t">A história da falha</div>
+        <p>Adoção, tração OSS, marca e monetização puxaram pra direções opostas. Otimizar pra tração
+        (atrito mínimo, copiar e colar) matou a captura pra monetização (que precisa de algum gate).
+        Otimizar pra monetização (CTAs, gate) matou a adoção. Querer os quatro ao mesmo tempo, em 3–6
+        meses, com recurso de criador solo, entregou nenhum. Cada decisão de produto teve quatro donos
+        e nenhum vencedor.</p></div>
+      <div class="blk"><div class="t">A premissa subjacente (o elefante nomeado)</div>
+        <p>Que dá pra perseguir os quatro de uma vez porque escolher um significaria abrir mão dos outros
+        três. O não-dito: o autor não quer escolher.</p></div>
+      <div class="blk"><div class="t">Probabilidade × Impacto</div>
+        <p><b>Alta × Alto.</b> Foco difuso é causa clássica de morte de projeto solo.</p></div>
+      <div class="trip"><b>Decisão (elefante):</b> <b>atacar</b> — escolha 1 objetivo primário por 90
+        dias (recomendo distribuição+adoção) e rebaixe os outros três a efeitos de segunda ordem. Documente a escolha.</div>
+    </div>
+  </div>
+
+  <!-- TIGRE 5 -->
+  <div class="card tigre">
+    <div class="head">
+      <div class="lead"><h3>#5 · Ativação fraca — sem prova de valor antes de instalar</h3></div>
+      <span class="tag tigre">Tigre</span>
+      <span class="badge b-fast">Fast-Follow</span>
+    </div>
+    <div class="body">
+      <div class="blk"><div class="t">A história da falha</div>
+        <p>O estranho chegou, leu o README, e não viu o resultado — só a promessa. Pra experimentar pelo
+        caminho de menor atrito, teve que colar um SKILL.md de 273 (premortem) ou 311 linhas (llm-council)
+        num chat, o que dilui o contexto ou estoura. Rodou uma vez, o output não gritou valor óbvio, e ele
+        não voltou. Sem GIF de output, sem exemplo rodável, sem "veja antes de instalar", a taxa de ativação
+        despencou — exatamente nas skills que carregam a marca.</p></div>
+      <div class="blk"><div class="t">A premissa subjacente</div>
+        <p>Que o usuário confia na promessa o bastante pra pagar o custo de ativação antes de ver a prova.</p></div>
+      <div class="blk"><div class="t">Probabilidade × Impacto</div>
+        <p><b>Alta × Médio.</b> Comum, e composta com a descoberta: quem chega e não ativa, não volta nem indica.</p></div>
+      <div class="trip"><b>Tripwire:</b> 60 dias sem um único caso de uso de terceiro documentado → a
+        ativação está quebrada; adicione exemplos rodáveis antes de qualquer skill nova.</div>
+    </div>
+  </div>
+
+  <!-- TIGRE 6 -->
+  <div class="card tigre" style="border-left-color:var(--tigre2)">
+    <div class="head">
+      <div class="lead"><h3>#6 · Drift — o formato de skills do Claude muda e quebra</h3></div>
+      <span class="tag tigre">Tigre</span>
+      <span class="badge b-mon">Monitorar</span>
+    </div>
+    <div class="body">
+      <div class="blk"><div class="t">A história da falha</div>
+        <p>O formato de skills é novo e em evolução. Um ajuste no frontmatter YAML, no mecanismo de trigger
+        ou no caminho <code>~/.claude/skills</code> bastou pra as instruções de instalação quebrarem e as
+        skills pararem de disparar. Criador solo, 6 skills, sem CI de validação — o drift foi silencioso até
+        alguém abrir uma issue "não funciona mais". A cowork-setup já foi de v1→v3 por mudança de produto;
+        o sinal estava lá.</p></div>
+      <div class="blk"><div class="t">A premissa subjacente</div>
+        <p>Que o formato e os caminhos do Claude/Cowork são estáveis no horizonte. São de tudo, menos estáveis.</p></div>
+      <div class="blk"><div class="t">Probabilidade × Impacto</div>
+        <p><b>Média × Médio.</b> Inevitável ao longo do tempo; gerenciável com validação automatizada.</p></div>
+      <div class="trip"><b>Tripwire:</b> adicione CI que valida frontmatter + caminhos a cada push; se
+        quebrar, conserta antes de qualquer um descobrir manualmente.</div>
+    </div>
+  </div>
+
+  <!-- TIGRE DE PAPEL 7 -->
+  <div class="card papel">
+    <div class="head">
+      <div class="lead"><h3>#7 · Licença Commons Clause atrita adoção/tração</h3></div>
+      <span class="tag papel">Tigre de Papel</span>
+      <span class="badge b-mon">Monitorar</span>
+    </div>
+    <div class="body">
+      <div class="blk"><div class="t">Por que assusta</div>
+        <p>MIT + Commons Clause não é OSI-approved; tecnicamente não é "open source" pela definição. Devs
+        e empresas cautelosos evitam dependências com cláusulas não-padrão, e algumas awesome-lists exigem
+        licença OSI — o que pode reduzir forks, contribuições e menções.</p></div>
+      <div class="blk"><div class="t">Por que provavelmente não morde</div>
+        <p>Pra <i>skills</i> (instruções, não dependência de código em produção), a fricção real é baixa:
+        a pessoa copia e usa. O impacto sobre "tração por stars" é marginal frente ao gargalo de descoberta.
+        Registre, não gaste energia — a menos que "tração OSS pura" vire o objetivo primário.</p></div>
+      <div class="trip"><b>Decisão:</b> se priorizar tração OSS, considere MIT puro; senão, aceite
+        conscientemente e documente o porquê (proteger contra reempacotamento pago) no topo do LICENSE.</div>
+    </div>
+  </div>
+
+  <!-- TIGRE DE PAPEL 8 -->
+  <div class="card papel">
+    <div class="head">
+      <div class="lead"><h3>#8 · Qualidade desigual entre skills dilui a marca</h3></div>
+      <span class="tag papel">Tigre de Papel</span>
+      <span class="badge b-mon">Monitorar</span>
+    </div>
+    <div class="body">
+      <div class="blk"><div class="t">Por que assusta</div>
+        <p>As 6 skills têm profundidade desigual — premortem e nem-parece-ia têm <code>references/</code>
+        ricas; oracle-diagnostic-lite e geo-content-brief são mais finas. Quem entra pela mais fraca julga
+        a coleção inteira pelo pior ponto de contato.</p></div>
+      <div class="blk"><div class="t">Por que provavelmente não morde</div>
+        <p>Todas passam de uma barra de utilidade real; nenhuma é constrangedora. A primeira impressão é
+        mais ameaçada pela <i>ativação</i> (#5) do que pela variância de profundidade. Gerenciável ordenando
+        a vitrine: ponha as duas mais fortes como porta de entrada no README.</p></div>
+      <div class="trip"><b>Decisão:</b> lidere o README com premortem + nem-parece-ia (as mais
+        completas); use-as como prova; nivele as outras só depois que houver tração.</div>
+    </div>
+  </div>
+
+  <!-- SUB-SKILLS -->
+  <h2 class="section">Premortem por skill — onde cada uma quebra sozinha</h2>
+  <p class="lede" style="margin-bottom:20px">Além do repo como um todo, cada skill é um produto que
+  pode falhar em seus próprios termos. O modo de falha mais específico de cada uma:</p>
+
+  <div class="skillcard">
+    <h3>premortem <span class="ver">v1.0</span> <span class="tag tigre">Tigre</span></h3>
+    <div class="row"><div class="t">Falha mais provável</div>
+      <p>SKILL.md de 273 linhas colado num chat (caminho 1) compete com o pedido do usuário e estoura
+      contexto; e o método exige sub-agentes paralelos que claude.ai/ChatGPT/Gemini não têm — o fallback
+      inline existe, mas dilui a força do enquadramento.</p></div>
+    <div class="row"><div class="t">Premissa oculta</div>
+      <p>Que o usuário traz contexto suficiente. A maioria chega com plano vago — e a skill ou interroga
+      demais (atrito) ou roda raso (genérico).</p></div>
+    <div class="row"><div class="t">Tripwire</div>
+      <p>Se &gt;50% das rodagens travam na coleta de contexto, a barra mínima está alta demais — afrouxe ou pré-preencha.</p></div>
+  </div>
+
+  <div class="skillcard">
+    <h3>llm-council <span class="ver">v1.0</span> <span class="tag tigre">Tigre</span></h3>
+    <div class="row"><div class="t">Falha mais provável</div>
+      <p>Simular 5 conselheiros + revisão cruzada num único modelo é caro em tokens e lento. Em claude.ai
+      sem multi-modelo real, é o mesmo modelo fingindo 5 vozes — o que mina a premissa central de "diversidade
+      de ângulos" (gera correlação, não diversidade). 311 linhas é a maior da coleção pra colar.</p></div>
+    <div class="row"><div class="t">Premissa oculta</div>
+      <p>Que 5 vozes simuladas pelo mesmo modelo entregam diversidade real. Sem modelos distintos, a tensão é teatral.</p></div>
+    <div class="row"><div class="t">Tripwire</div>
+      <p>Se os 5 conselheiros convergem cedo demais nas rodagens, a diversidade é fake — force premissas/papéis mais ortogonais.</p></div>
+  </div>
+
+  <div class="skillcard">
+    <h3>oracle-diagnostic-lite <span class="ver">v1.0</span> <span class="tag tigre">Tigre</span></h3>
+    <div class="row"><div class="t">Falha mais provável</div>
+      <p>Por design ela <i>não</i> prescreve solução — "localiza o cômodo do incêndio e para". Quem chega com
+      "onde meu negócio trava" quer a saída, recebe um diagnóstico e fica frustrado ("e agora?"). A contenção
+      que a mantém honesta é a mesma que gera decepção e não-retorno.</p></div>
+    <div class="row"><div class="t">Premissa oculta</div>
+      <p>Que o usuário aceita o contrato "só diagnóstico". É o funil perfeito pra oferta paga — mas sem CTA,
+      a frustração não tem pra onde ir e vira saldo negativo de marca.</p></div>
+    <div class="row"><div class="t">Tripwire</div>
+      <p>Esta é a skill que mais pede um CTA explícito ("quer a consulta completa? →"). Sem ele, ela trabalha contra a monetização.</p></div>
+  </div>
+
+  <div class="skillcard">
+    <h3>nem-parece-ia <span class="ver">v1.0</span> <span class="tag tigre">Tigre</span></h3>
+    <div class="row"><div class="t">Falha mais provável</div>
+      <p>Maior risco de "uncanny valley": promete remover cara de IA, mas se o resultado ainda soar editado, a
+      falha é auto-evidente e embaraçosa — a skill falha no próprio domínio, à vista. E é a mais commoditizada
+      (todo mundo tem um prompt "humanize"). A diferenciação está nas <code>references/</code> PT-BR — que
+      <b>não viajam</b> no caminho 1 (só o SKILL.md).</p></div>
+    <div class="row"><div class="t">Premissa oculta</div>
+      <p>Que as references viajam junto. No caminho de menor atrito, não viajam — e a skill entrega sua versão mais fraca justo onde mais se expõe.</p></div>
+    <div class="row"><div class="t">Tripwire</div>
+      <p>Se a instalação dominante for "só SKILL.md", embuta o essencial das references inline ou force o caminho completo pra esta skill.</p></div>
+  </div>
+
+  <div class="skillcard">
+    <h3>geo-content-brief <span class="ver">v1.0</span> <span class="tag tigre" style="background:rgba(255,140,66,.15);color:#ffac6e">Tigre · perecível</span></h3>
+    <div class="row"><div class="t">Falha mais provável</div>
+      <p>GEO/AEO muda mensalmente. A skill cita dados de "2025–2026" e o estudo de Princeton — se as heurísticas
+      de citação de IA mudarem (e mudam), o brief gera conselho desatualizado <i>com ar de autoridade</i>. Risco
+      de envelhecer mal e rápido, e de o erro ser invisível pra quem confia.</p></div>
+    <div class="row"><div class="t">Premissa oculta</div>
+      <p>Que as heurísticas de citação de hoje valem no horizonte. Frágil num campo volátil — autoridade datada é pior que silêncio.</p></div>
+    <div class="row"><div class="t">Tripwire</div>
+      <p>Coloque uma data de validade visível ("calibrado em jun/2026 — revise as faixas de citação a cada trimestre") e agende a revisão.</p></div>
+  </div>
+
+  <div class="skillcard">
+    <h3>cowork-setup <span class="ver">v3.0</span> <span class="tag tigre" style="background:rgba(255,140,66,.15);color:#ffac6e">Tigre · acoplada</span></h3>
+    <div class="row"><div class="t">Falha mais provável</div>
+      <p>É a skill mais acoplada a um produto novo e em mudança (Claude Cowork). Já reescrita v1→v3 por mudança
+      de produto. Depende de caminhos de arquivo e estrutura de workspace que a Anthropic pode alterar — maior
+      risco de drift/quebra da coleção.</p></div>
+    <div class="row"><div class="t">Premissa oculta</div>
+      <p>Que a estrutura de workspace do Cowork é estável. Não é — e quando muda, a skill quebra silenciosamente.</p></div>
+    <div class="row"><div class="t">Tripwire</div>
+      <p>Esta é a primeira a validar no CI de drift (#6). Se o Cowork mudar a estrutura, ela é a que avisa.</p></div>
+  </div>
+
+  <div class="meta-elefante">
+    <h3>🐘 O meta-elefante das sub-skills</h3>
+    <p>As skills mais valiosas (premortem, llm-council, nem-parece-ia, cowork-setup) dependem de
+    <code>references/</code> que <b>não viajam</b> no caminho de instalação de menor atrito — copiar só o
+    SKILL.md. O README até avisa "rodam melhor instaladas completas", mas o caminho 1, justamente por ser o
+    mais fácil, é o mais usado — e entrega a versão degradada. É um defeito de <i>distribuição</i> que mina a
+    qualidade percebida exatamente nas skills que carregam a marca. O mesmo padrão da síntese do repo, em
+    miniatura: o gargalo não é o conteúdo, é como ele chega.</p>
+  </div>
+
+  <footer>
+    Premortem gerado em 12/06/2026 · alvo: repositório <b>mscreative-skills</b> (coleção + 6 skills) ·
+    horizonte 3–6 meses · método Gary Klein (hindsight prospectivo) + triagem Tigre/Tigre de Papel/Elefante
+    + matriz P×I + visão de fora + tripwires.<br>
+    <span style="color:#5b6480">Forjado com a skill <code>premortem</code> da MSCREATIVE.SYSTEMS™.</span>
+  </footer>
+
+</div>
+</body>
+</html>

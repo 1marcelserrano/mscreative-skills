@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<!--
+  TEMPLATE do dashboard de fases — skill `orquestrador`.
+  Como usar: preencha o array PHASES (no <script> ao final) com as fases reais,
+  ajuste TITLE/SUBTITLE e o painel de tripwires. Tudo o mais funciona sozinho:
+  estado salvo em localStorage, barra de progresso, status por fase, campo de
+  decisão. Um arquivo único, sem dependências. Princípio: a IA orquestra (mostra
+  decisão + recomendação); o humano decide (registra a escolha e marca o status).
+-->
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard de Fases</title>
+<style>
+  :root{
+    --bg:#0a0e1a;--panel:#121829;--panel2:#0f1422;--ink:#e8ecf4;--muted:#8b94ad;
+    --line:#222b42;--accent:#5b8cff;--green:#3ddc84;--amber:#ffb33a;--elefante:#8c7ae6;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.55}
+  .wrap{max-width:1060px;margin:0 auto;padding:34px 20px 90px}
+  .kicker{letter-spacing:.22em;text-transform:uppercase;font-size:11px;color:var(--accent);font-weight:700}
+  h1{font-size:30px;margin:7px 0 4px;letter-spacing:-.5px}
+  .sub{color:var(--muted);font-size:14px}
+  .topbar{display:grid;grid-template-columns:1.4fr 1fr;gap:14px;margin:24px 0 10px}
+  @media(max-width:760px){.topbar{grid-template-columns:1fr}}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+  .panel h3{margin:0 0 8px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .prog{height:12px;background:#0c1120;border:1px solid var(--line);border-radius:999px;overflow:hidden;margin:6px 0 8px}
+  .prog>i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--green));transition:width .35s}
+  .progtxt{font-size:13px;color:var(--muted)}
+  .northstar textarea{width:100%;min-height:54px;background:#0c1120;border:1px solid var(--line);
+    border-radius:8px;color:var(--ink);padding:9px 11px;font:inherit;font-size:14px;resize:vertical}
+  .northstar .hint{font-size:12px;color:var(--muted);margin-top:5px}
+  .role{margin:6px 0 18px;padding:11px 15px;background:var(--panel2);border-left:3px solid var(--elefante);
+    border-radius:6px;font-size:13.5px;color:#cdc6ef}
+  .role b{color:#d9d2ff}
+  .macro{margin:30px 0 12px;display:flex;align-items:center;gap:11px}
+  .macro .ml{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:700}
+  .macro .line{flex:1;height:1px;background:var(--line)}
+  .phase{background:var(--panel);border:1px solid var(--line);border-radius:12px;margin-bottom:13px;overflow:hidden;
+    border-left:4px solid var(--line);transition:border-color .2s}
+  .phase[data-st="decidido"]{border-left-color:var(--amber)}
+  .phase[data-st="andamento"]{border-left-color:var(--accent)}
+  .phase[data-st="concluido"]{border-left-color:var(--green)}
+  .ph-head{display:flex;align-items:flex-start;gap:13px;padding:15px 18px;cursor:pointer}
+  .ph-num{flex:none;width:30px;height:30px;border-radius:8px;background:#1a2236;color:var(--accent);
+    font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center}
+  .ph-title{flex:1}
+  .ph-title h2{margin:0;font-size:16.5px;letter-spacing:-.2px}
+  .ph-meta{font-size:12.5px;color:var(--muted);margin-top:3px}
+  .ph-meta .skill{color:#8fb0ff}
+  .ph-meta .atk{color:#ff9183}
+  .stbadge{flex:none;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
+    padding:4px 11px;border-radius:7px;border:1px solid var(--line);color:var(--muted);background:#0c1120;white-space:nowrap}
+  .stbadge[data-st="andamento"]{color:#8fb0ff;border-color:#243a66;background:rgba(91,140,255,.1)}
+  .stbadge[data-st="decidido"]{color:var(--amber);border-color:#5a4318;background:rgba(255,179,58,.1)}
+  .stbadge[data-st="concluido"]{color:var(--green);border-color:#1c5238;background:rgba(61,220,132,.1)}
+  .ph-body{padding:0 18px 17px;display:none}
+  .phase.open .ph-body{display:block}
+  .ph-body .blk{margin-top:13px}
+  .ph-body .blk .t{font-size:11px;text-transform:uppercase;letter-spacing:.13em;color:var(--muted);margin-bottom:4px}
+  .ph-body .blk p{margin:0;font-size:14px;color:#cdd4e6}
+  .decision{background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:12px 14px;margin-top:13px}
+  .decision .q{font-size:14.5px;color:#fff;font-weight:600;margin-bottom:6px}
+  .decision .rec{font-size:13.5px;color:#bcd0a8}
+  .yourdec{width:100%;min-height:46px;margin-top:9px;background:#0c1120;border:1px solid var(--line);
+    border-radius:8px;color:var(--ink);padding:9px 11px;font:inherit;font-size:13.5px;resize:vertical}
+  .stbtns{display:flex;gap:7px;flex-wrap:wrap;margin-top:13px}
+  .stbtns button{font:inherit;font-size:12.5px;padding:6px 12px;border-radius:7px;cursor:pointer;
+    background:#0c1120;border:1px solid var(--line);color:var(--muted);transition:.15s}
+  .stbtns button:hover{border-color:#3a4870;color:var(--ink)}
+  .stbtns button.on[data-v="andamento"]{color:#8fb0ff;border-color:#243a66;background:rgba(91,140,255,.13)}
+  .stbtns button.on[data-v="decidido"]{color:var(--amber);border-color:#5a4318;background:rgba(255,179,58,.13)}
+  .stbtns button.on[data-v="concluido"]{color:var(--green);border-color:#1c5238;background:rgba(61,220,132,.13)}
+  .stbtns button.on[data-v="pendente"]{color:var(--ink);border-color:#3a4870}
+  .artefato{font-size:12.5px;color:var(--muted);margin-top:11px}
+  .artefato b{color:#cdd4e6}
+  .trip{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-top:14px}
+  .trip h3{margin:0 0 10px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .trip ul{margin:0;padding-left:18px}
+  .trip li{font-size:13.5px;color:#cdd4e6;margin-bottom:7px}
+  .trip li b{color:var(--amber)}
+  .toolbar{display:flex;gap:9px;margin-top:26px;flex-wrap:wrap}
+  .toolbar button{font:inherit;font-size:13px;padding:8px 15px;border-radius:8px;cursor:pointer;
+    background:#0c1120;border:1px solid var(--line);color:var(--muted)}
+  .toolbar button:hover{color:var(--ink);border-color:#3a4870}
+  footer{margin-top:34px;border-top:1px solid var(--line);padding-top:16px;color:var(--muted);font-size:12.5px}
+  .saved{font-size:12px;color:var(--green);opacity:0;transition:opacity .3s}
+  .saved.show{opacity:1}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="kicker">Dashboard de Fases · padrão Orquestrador</div>
+  <!-- {{TITLE}} --><h1>Título do plano</h1>
+  <!-- {{SUBTITLE}} --><div class="sub">N fases · cada uma com um ponto de decisão · estado salvo no navegador <span class="saved" id="saved">✓ salvo</span></div>
+
+  <div class="role">
+    <b>Como funciona:</b> a IA <b>orquestra e facilita</b> — em cada fase expõe a decisão,
+    a recomendação e o artefato esperado. <b>Você decide</b> e registra a escolha. O progresso
+    fica salvo neste navegador (localStorage).
+  </div>
+
+  <div class="topbar">
+    <div class="panel">
+      <h3>Progresso</h3>
+      <div class="prog"><i id="progbar"></i></div>
+      <div class="progtxt" id="progtxt"></div>
+    </div>
+    <div class="panel northstar">
+      <h3>★ Métrica-norte (sai da Fase 1)</h3>
+      <textarea id="northstar" placeholder="A métrica única que todas as fases servem"></textarea>
+      <div class="hint">Defina na Fase 1 e tudo abaixo serve a ela.</div>
+    </div>
+  </div>
+
+  <div id="phases"></div>
+
+  <!-- {{TRIPWIRES}} — remova se o diagnóstico não os tiver produzido -->
+  <div class="trip">
+    <h3>⚑ Tripwires (decididos a frio)</h3>
+    <ul>
+      <li><b>[data]</b> · [métrica] [limiar] → [parar/pivotar/dobrar]</li>
+    </ul>
+  </div>
+
+  <div class="toolbar">
+    <button onclick="expandAll(true)">Expandir tudo</button>
+    <button onclick="expandAll(false)">Recolher tudo</button>
+    <button onclick="resetAll()">Resetar progresso</button>
+  </div>
+
+  <footer>Dashboard gerado pelo padrão <b>orquestrador</b>. Estado persistido localmente — nada sai do seu navegador.</footer>
+
+</div>
+
+<script>
+// ===== PREENCHA AQUI: uma entrada por fase =====
+// macro: nome da macro-etapa (separador visual)  ·  n: número da fase
+// title: nome da fase  ·  atk: o que ataca  ·  skill: ferramenta/skill acionada
+// obj: objetivo em 1 frase  ·  q: a pergunta que o usuário decide
+// rec: a recomendação da IA  ·  art: o artefato concreto que sai da fase
+const PHASES = [
+  { macro:"A · Direção", n:1, title:"A decisão estrutural", atk:"o achado que reprioriza tudo", skill:"(ex.: llm-council)",
+    obj:"A escolha de foco/direção/escopo que vem antes de todo o resto.",
+    q:"Qual é a decisão estrutural — entre quais opções?",
+    rec:"A recomendação fundamentada da IA. O usuário confirma ou contesta.",
+    art:"O documento de direção + a métrica-norte." },
+  // { macro:"B · ...", n:2, title:"...", atk:"...", skill:"...", obj:"...", q:"...", rec:"...", art:"..." },
+];
+// ================================================
+const STATUSES=[["pendente","Pendente"],["andamento","Em decisão"],["decidido","Decidido"],["concluido","Concluído"]];
+const KEY="orq-dashboard-v1"; // troque o sufixo por plano para não colidir o estado entre dashboards
+let state=load();
+function load(){try{return JSON.parse(localStorage.getItem(KEY))||{};}catch(e){return{};}}
+function persist(){localStorage.setItem(KEY,JSON.stringify(state));}
+function save(){persist();flash();render();}
+function flash(){const s=document.getElementById("saved");s.classList.add("show");setTimeout(()=>s.classList.remove("show"),900);}
+function setStatus(n,v){state["st"+n]=v;save();}
+function setDec(n,v){state["dec"+n]=v;persist();flash();}
+function toggleOpen(n){state["open"+n]=!state["open"+n];persist();render();}
+function setNorth(v){state.north=v;persist();flash();}
+function expandAll(o){PHASES.forEach(p=>state["open"+p.n]=o);save();}
+function resetAll(){if(confirm("Resetar todo o progresso salvo neste navegador?")){state={};save();}}
+function render(){
+  const root=document.getElementById("phases");root.innerHTML="";let lastMacro=null;
+  PHASES.forEach(p=>{
+    if(p.macro!==lastMacro){const m=document.createElement("div");m.className="macro";
+      m.innerHTML=`<span class="ml">${p.macro}</span><span class="line"></span>`;root.appendChild(m);lastMacro=p.macro;}
+    const st=state["st"+p.n]||"pendente";const open=state["open"+p.n]?" open":"";const dec=state["dec"+p.n]||"";
+    const card=document.createElement("div");card.className="phase"+open;card.dataset.st=st;
+    const stLabel=STATUSES.find(s=>s[0]===st)[1];
+    card.innerHTML=`
+      <div class="ph-head" onclick="toggleOpen(${p.n})">
+        <div class="ph-num">${p.n}</div>
+        <div class="ph-title"><h2>${p.title}</h2>
+          <div class="ph-meta">ataca <span class="atk">${p.atk}</span> · skill <span class="skill">${p.skill}</span></div></div>
+        <div class="stbadge" data-st="${st}">${stLabel}</div>
+      </div>
+      <div class="ph-body">
+        <div class="blk"><div class="t">Objetivo da fase</div><p>${p.obj}</p></div>
+        <div class="decision">
+          <div class="q">Decisão sua: ${p.q}</div>
+          <div class="rec">${p.rec}</div>
+          <textarea class="yourdec" placeholder="Registre aqui a sua decisão…" oninput="setDec(${p.n}, this.value)">${dec.replace(/</g,"&lt;")}</textarea>
+        </div>
+        <div class="stbtns">
+          ${STATUSES.map(s=>`<button class="${st===s[0]?'on':''}" data-v="${s[0]}" onclick="setStatus(${p.n},'${s[0]}')">${s[1]}</button>`).join("")}
+        </div>
+        <div class="artefato">Artefato esperado: <b>${p.art}</b></div>
+      </div>`;
+    root.appendChild(card);
+  });
+  const done=PHASES.filter(p=>state["st"+p.n]==="concluido").length;
+  document.getElementById("progbar").style.width=(PHASES.length?done/PHASES.length*100:0)+"%";
+  document.getElementById("progtxt").textContent=`${done} de ${PHASES.length} fases concluídas`;
+  const nt=document.getElementById("northstar");if(nt.value!==(state.north||""))nt.value=state.north||"";
+}
+document.getElementById("northstar").addEventListener("input",e=>setNorth(e.target.value));
+render();
+</script>
+</body>
+</html>

@@ -1,12 +1,14 @@
 # mscreative-skills
 
-**Skills públicas da MSCREATIVE.SYSTEMS™ para o Claude. Ferramentas de decisão, em português.**
+**Skills públicas da MSCREATIVE.SYSTEMS™ para o Claude. Ferramentas pra pensar, decidir e escrever melhor — em português.**
 
 [Instalar](#instalar) • [Skills](#skills-disponíveis) • [As skills em detalhe](#as-skills-em-detalhe)
 
 ---
 
-Uma coleção curada de skills para o Claude (Claude Code, Cowork e claude.ai). Cada skill é uma ferramenta de pensamento — testada em uso real, escrita em PT-BR, sem firula. Instale a que precisar.
+Uma coleção curada de skills para o Claude (Claude Code, Cowork e claude.ai). Cada skill é uma ferramenta de raciocínio — testada em uso real, escrita em PT-BR, sem firula. Você instala a que precisar e ela dispara sozinha quando o contexto bate.
+
+**Por onde começar:** escreve e não quer soar como máquina? Vá direto pra [`nem-parece-ia`](./skills/nem-parece-ia/). Tem uma decisão cara pela frente? [`premortem`](./skills/premortem/) ou [`llm-council`](./skills/llm-council/). Sente o negócio travando mas não sabe onde? [`oracle-diagnostic-lite`](./skills/oracle-diagnostic-lite/).
 
 ## Skills disponíveis
 
@@ -18,6 +20,7 @@ Uma coleção curada de skills para o Claude (Claude Code, Cowork e claude.ai). 
 | [`nem-parece-ia`](./skills/nem-parece-ia/) | v1.0 | Revisa textos em PT-BR para remover cara de IA, lero-lero corporativo, falsa profundidade e cadência robótica sem apagar a voz do autor. | `não parecer IA`, `tira o lero-lero`, `deixa mais natural`, `revisa esse texto`, `humaniza em pt-br` |
 | [`geo-content-brief`](./skills/geo-content-brief/) | v1.0 | Transforma um keyword num brief que faz a página ranquear no Google e ser citada por AI Overviews, ChatGPT e Perplexity (GEO/AEO). Bimodal: brief para o redator ou gate de pré-publicação. | `preciso de um brief`, `otimizar para AI Overviews`, `vai ser citado por IA?`, `roda o gate`, `geo brief` |
 | [`cowork-setup`](./skills/cowork-setup/) | v3.0 | Monta, completa e conserta seu workspace do Claude Cowork em 3 rotas: primeiro setup por entrevista (uma pergunta por vez), workspace completo (KNOWLEDGE/, ritual semanal) e diagnóstico do que não funciona. | `me entrevista pro meu primeiro setup`, `setup cowork`, `criar meu claude.md`, `cowork não funciona bem`, `ritual de sexta`, `quero que o Claude me conheça` |
+| [`orquestrador`](./skills/orquestrador/) | v1.0 | Pega os achados de um premortem, diagnóstico ou brief e vira um plano em fases: cadeia de prompts encadeados + dashboard HTML de acompanhamento. A IA orquestra e facilita; você decide. | `orquestra isso em fases`, `monta um plano em fases`, `vira isso numa cadeia de prompts`, `dashboard de fases`, `você orquestra e eu decido` |
 
 ## Instalar
 
@@ -25,12 +28,12 @@ Três caminhos, do mais rápido ao mais permanente. Valem pra qualquer skill da 
 
 ### 1. Testar agora — sem instalar (claude.ai, ChatGPT, Gemini)
 
-Abra o `SKILL.md` da skill que você quer ([`premortem`](./skills/premortem/SKILL.md), [`llm-council`](./skills/llm-council/SKILL.md), [`oracle-diagnostic-lite`](./skills/oracle-diagnostic-lite/SKILL.md), [`nem-parece-ia`](./skills/nem-parece-ia/SKILL.md), [`geo-content-brief`](./skills/geo-content-brief/SKILL.md) ou [`cowork-setup`](./skills/cowork-setup/SKILL.md)), copie o conteúdo inteiro, cole numa conversa nova e descreva sua demanda logo abaixo. A skill roda na hora. Zero setup, funciona em qualquer chat de IA.
+Abra o `SKILL.md` da skill que você quer ([`premortem`](./skills/premortem/SKILL.md), [`llm-council`](./skills/llm-council/SKILL.md), [`oracle-diagnostic-lite`](./skills/oracle-diagnostic-lite/SKILL.md), [`nem-parece-ia`](./skills/nem-parece-ia/SKILL.md), [`geo-content-brief`](./skills/geo-content-brief/SKILL.md), [`cowork-setup`](./skills/cowork-setup/SKILL.md) ou [`orquestrador`](./skills/orquestrador/SKILL.md)), copie o conteúdo inteiro, cole numa conversa nova e descreva sua demanda logo abaixo. A skill roda na hora. Zero setup, funciona em qualquer chat de IA.
 
 ### 2. Claude Code / Cowork — uma skill, sem clonar o repo
 
 ```bash
-SKILL=premortem   # ou: llm-council, oracle-diagnostic-lite, nem-parece-ia, geo-content-brief, cowork-setup
+SKILL=premortem   # ou: llm-council, oracle-diagnostic-lite, nem-parece-ia, geo-content-brief, cowork-setup, orquestrador
 mkdir -p ~/.claude/skills/$SKILL
 curl -sL https://raw.githubusercontent.com/1marcelserrano/mscreative-skills/main/skills/$SKILL/SKILL.md \
   -o ~/.claude/skills/$SKILL/SKILL.md
@@ -112,6 +115,16 @@ Todo chat novo com IA começa do zero: você reexplica quem é, o que faz, como 
 **O que entrega:** na rota de primeiro setup, dois degraus — mínimo viável (1 `claude.md` consolidado, ~10 minutos) ou estrutura completa (`about-me.md`, `writing-style.md`, `CLAUDE.md`, `PROJECTS.md`, entregues um por bloco), cada arquivo com cartão de 3 linhas: o que é, o que NÃO é, quando atualizar. Na rota de workspace, a estrutura de pastas, a base KNOWLEDGE/ e o ritual semanal de 10 minutos. Na de diagnóstico, auditoria contra checklist com conserto na própria sessão.
 
 **Por que funciona:** quase todo setup morre porque a pessoa tenta preencher 4 templates de uma vez e abandona na metade — a entrevista inverte o esforço, e cada arquivo nasce logo depois do bloco que o alimenta. E quase todo setup que sobrevive apodrece sem manutenção — por isso toda rota termina ensinando o hábito que mantém os arquivos vivos. Unificação (v3, jun/2026) das antigas `first-setup` e `cowork-setup` V2, validada por eval A/B sem regressão.
+
+### orquestrador
+
+Você roda um premortem, um diagnóstico ou um council e sai com 8 problemas — e trava na distância entre o diagnóstico e a execução. Atacar tudo de uma vez dispersa o foco (que costuma ser um dos próprios problemas); atacar no escuro repete o erro apontado. O orquestrador fecha essa distância: transforma a lista de achados num plano em fases, encadeado e rastreável.
+
+**Quando usar:** depois de qualquer skill ou análise que cospe uma lista de decisões — premortem, oracle-diagnostic-lite, llm-council, um brief, um backlog de pendências de alto custo. Dispara com "orquestra isso em fases", "vira isso numa cadeia de prompts", "monta um dashboard de fases" ou "você orquestra e eu decido".
+
+**O que entrega:** três saídas — uma **cadeia de prompts** (um por fase, encadeados, cada um acionando a ferramenta/skill certa), um **dashboard HTML** de acompanhamento (autocontido, estado salvo no navegador, status e decisão por fase), e em cada fase um **artefato concreto**. A decisão estrutural (foco/direção) sempre vira a Fase 1, porque reprioriza todo o resto.
+
+**Por que funciona:** o princípio é inegociável — a IA **orquestra e facilita**, o humano **decide**. Em cada fase você recebe a decisão, as opções e a recomendação; a escolha é sua e fica registrada. O valor não é a IA fazer tudo: é tornar cada decisão barata, clara e bem-sequenciada, com você dono do rumo.
 
 ---
 
