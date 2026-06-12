@@ -189,13 +189,16 @@ const PHASES = [
     art:"Painel de tripwires preenchido (já esboçado acima) + gatilho de re-premortem." },
 ];
 const STATUSES = [["pendente","Pendente"],["andamento","Em decisão"],["decidido","Decidido"],["concluido","Concluído"]];
-const KEY = "orq-premortem-mscreative-v1";
-// Semente: a Fase 1 já foi decidida (12/06/2026). Aplicada só se não houver estado salvo.
+const KEY = "orq-premortem-mscreative-v2";
+// Semente: Fases 1 e 2 já decididas (12/06/2026). Aplicada só se não houver estado salvo.
 const SEED = {
   north: "Nº de instalações/ativações rastreáveis das skills vindas do canal próprio, em 90 dias (métrica-guarda: e-mails capturados).",
   st1: "concluido",
   open1: true,
-  dec1: "DECIDIDO 12/06: foco em ADOÇÃO REAL (via distribuição + captura). Tese a comprovar: qualidade gera adoção — skills boas são instaladas e usadas por estranhos quando vistas. Marca = método (o canal); tração OSS e monetização = segunda ordem. Ver foco-90-dias.md."
+  dec1: "DECIDIDO 12/06: foco em ADOÇÃO REAL (via distribuição + captura). Tese a comprovar: qualidade gera adoção — skills boas são instaladas e usadas por estranhos quando vistas. Marca = método (o canal); tração OSS e monetização = segunda ordem. Ver foco-90-dias.md.",
+  st2: "decidido",
+  open2: true,
+  dec2: "DECIDIDO 12/06: vitrine = nem-parece-ia; canal = Substack (base+captura) espelhado no Instagram; tripwire = <15 cliques rastreáveis em 14 dias. Roteiro + plano prontos em fase2-experimento-distribuicao.md. Vira 'concluído' quando a peça for publicada e o link rastreável estiver no ar."
 };
 let state = load();
 if (Object.keys(state).length === 0) { state = { ...SEED }; localStorage.setItem(KEY, JSON.stringify(state)); }
