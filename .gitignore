@@ -14,3 +14,14 @@ Thumbs.db
 .vscode/
 .idea/
 *.swp
+# === Segredos / credenciais (reforço de segurança) ===
+.env
+.env.*
+*.local.json
+settings.local.json
+*.pem
+*.key
+*_rsa
+*.p12
+secrets/
+.claude/settings.local.json
