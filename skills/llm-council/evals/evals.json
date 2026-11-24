@@ -4,7 +4,7 @@
   "evals": [
     {
       "id": 0,
-      "prompt": "passa no conselho: tô na dúvida entre lançar um workshop ao vivo de R$497 ou um curso gravado de R$1.500 sobre IA pra times de marketing. minha lista tem 4.000 pessoas, a maioria operador solo. quero faturar e construir autoridade no nicho. qual é a jogada certa?",
+      "prompt": "passa no conselho: tô na dúvida entre migrar o atendimento pra um chatbot agora ou daqui a 6 meses. o time de atendimento tem 8 pessoas, a fila cresce toda semana e metade dos chamados parece ser a mesma dúvida. quero reduzir a fila sem perder cliente nem queimar o time. qual é a jogada certa?",
       "should_trigger": true,
       "pass_if": [
         "Dispara o conselho (não responde direto com uma opinião única, nem pede contexto extra — a barra mínima já está no prompt)",
@@ -54,11 +54,11 @@
     },
     {
       "id": 4,
-      "prompt": "escreve um tweet anunciando meu novo workshop de IA",
+      "prompt": "escreve um post anunciando a nova vaga do time",
       "should_trigger": false,
       "pass_if": [
         "NÃO dispara o conselho",
-        "Escreve o tweet (é tarefa de criação, não decisão a ser pressionada)"
+        "Escreve o post (é tarefa de criação, não decisão a ser pressionada)"
       ],
       "files": []
     }
