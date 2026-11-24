@@ -1,6 +1,6 @@
 # Método canônico do LLM Council
 
-Carregue este arquivo quando precisar do perfil completo dos conselheiros (Passo 2), dos princípios da presidência (Passo 4) ou do template do relatório HTML (Passo 5). O SKILL.md tem o fluxo; aqui está a profundidade.
+Carregue este arquivo quando precisar do perfil completo dos conselheiros e da regra da âncora (Passo 2), dos princípios da presidência (Passo 4) ou do template do relatório HTML (Passo 5). O SKILL.md tem o fluxo; aqui está a profundidade.
 
 ## Índice
 - §origem — de onde vem o método e por que funciona
@@ -13,7 +13,7 @@ Carregue este arquivo quando precisar do perfil completo dos conselheiros (Passo
 
 ## §origem
 
-O LLM Council é de Andrej Karpathy (2025), descrito como um experimento pessoal: em vez de confiar na resposta de um único modelo, ele dispara a mesma pergunta para vários LLMs, faz cada um revisar de forma anônima as respostas dos outros, e um modelo "presidente" sintetiza tudo num veredito final. A intuição é que a qualidade emerge da diversidade de perspectivas mais a revisão cruzada — não de um oráculo único.
+O LLM Council é de Andrej Karpathy (2025, https://github.com/karpathy/llm-council), descrito como um experimento pessoal: em vez de confiar na resposta de um único modelo, ele dispara a mesma pergunta para vários LLMs, faz cada um revisar de forma anônima as respostas dos outros, e um modelo "presidente" sintetiza tudo num veredito final. A intuição é que a qualidade emerge da diversidade de perspectivas mais a revisão cruzada, não de um oráculo único.
 
 A base cognitiva é antiga e bem estabelecida. A "sabedoria das multidões" (Galton, 1907; Surowiecki, 2004) mostra que a média de estimativas independentes costuma bater o melhor especialista — desde que as estimativas sejam de fato **independentes** e **diversas**. Quando os palpites se contaminam (todo mundo ouve o primeiro a falar), a vantagem some. Daí dois princípios não-negociáveis desta skill:
 
@@ -24,8 +24,10 @@ A adaptação aqui troca "modelos diferentes" por "lentes de pensamento diferent
 
 Por que isso importa numa decisão assistida por IA: o modelo tende ao otimismo cordial e à média morna. Pergunte "isso é uma boa ideia?" e ele acha razões pra dizer que sim, equilibrando todo mundo. O conselho quebra esse padrão ao proibir o equilíbrio em cada conselheiro e só permitir a síntese no fim — depois que os ângulos já bateram de frente.
 
+Esta versão acrescenta dois critérios ao método. Primeiro, a âncora: nenhum conselheiro critica antes de ler o material real do usuário. Segundo, o fechamento: o presidente entrega critério de pronto e recomendação clara, nunca uma média.
+
 Leituras de apoio:
-- Andrej Karpathy, "LLM Council" (2025) — o método original
+- Andrej Karpathy, "LLM Council" (2025), o método original: https://github.com/karpathy/llm-council
 - James Surowiecki, "The Wisdom of Crowds" (2004) — independência e diversidade
 - Cass Sunstein & Reid Hastie, "Wiser" (2015) — por que grupos erram (cascatas informacionais, polarização) e como corrigir
 - Philip Tetlock, "Superforecasting" (2015) — agregação de visões independentes bate o especialista solo
@@ -35,6 +37,10 @@ Leituras de apoio:
 ## §conselheiros
 
 Os cinco não são cargos nem personas. São estilos de pensamento que criam tensão entre si de propósito. O valor não está em nenhum deles isolado — está no atrito.
+
+### A regra da âncora
+
+Vale pros cinco. Antes de criticar, cada conselheiro lê o que já existe: o repertório do usuário, os arquivos, as decisões passadas, os números. Crítica sem essa âncora vira palpite genérico, que serviria pra qualquer pessoa. Cada afirmação aponta a evidência no material. O que não tem evidência é marcado como suposição. O Forasteiro segue a regra do jeito dele: lê o material que está na frente, mas ignora o histórico de propósito.
 
 ### 1. O Contrário
 
@@ -52,16 +58,16 @@ Procura o upside que todo mundo está deixando passar. O que poderia ser maior? 
 
 Tem zero contexto sobre você, sua área ou sua história. Responde puramente ao que está na frente dele. É **o conselheiro mais subestimado**. Especialistas desenvolvem pontos cegos; o Forasteiro pega a maldição do conhecimento — as coisas óbvias pra você e confusas pra todo mundo. Quando ele diz "eu não entendi o que isso é", isso não é ignorância dele, é um defeito da sua comunicação. Costuma entregar o insight mais importante da sessão justamente por não saber de nada.
 
-### 5. O Executor
+### 5. O Enxuto
 
-Só liga pra uma coisa: dá pra fazer, e qual o caminho mais rápido? Ignora teoria, estratégia e visão macro. Olha cada ideia pela lente de "tá, mas o que você faz segunda de manhã?". Se a ideia soa brilhante mas não tem primeiro passo claro, ele fala. Troca o plano grandioso pelo menor experimento que gera aprendizado real esta semana. É o antídoto pra paralisia de análise.
+Procura o mesmo resultado com menos gasto: de tempo, de tokens, de etapas, de complexidade. **Não é fazer barato.** É não gastar o que não melhora o resultado. Pergunta o que dá pra cortar sem perder nada que importa, que etapa só existe por hábito, qual o caminho mais curto até um resultado que já sirva. Se duas opções chegam no mesmo lugar, ele fica com a que custa menos e diz por quê. Se cortar piora o resultado, ele não corta. Troca o plano grandioso pelo menor experimento que gera aprendizado real esta semana.
 
 ### As três tensões
 
 Os cinco não foram escolhidos ao acaso. Eles formam três tensões que cobrem o espaço de decisão:
 
 - **Contrário × Expansionista** — downside contra upside. Um te protege do desastre, o outro te impede de ser covarde. A decisão boa vive na faixa entre os dois.
-- **Primeiros Princípios × Executor** — repensar tudo contra simplesmente fazer. Um questiona se o problema é o certo, o outro pergunta qual o primeiro passo. Juntos evitam tanto resolver o problema errado quanto nunca sair do papel.
+- **Primeiros Princípios × Enxuto**: repensar tudo contra não gastar além do necessário. Um quer remontar o problema do zero, o outro pergunta quanto disso melhora o resultado. Juntos evitam resolver o problema errado e evitam gastar demais no problema certo.
 - **O Forasteiro no meio** — mantém os outros quatro honestos enxergando o que olhos frescos enxergam. Quando os especialistas se enrolam no próprio jargão, ele é a verificação de sanidade.
 
 Quando você gera os conselheiros, force cada um pro extremo do ângulo dele. O equilíbrio é tarefa do presidente. Conselheiro que tenta ser equilibrado sozinho não agrega nada que um único prompt já não daria.
@@ -91,7 +97,8 @@ O presidente não é um sexto conselheiro, e não é um tirador de média. O tra
 - **Convergência independente é sinal forte.** Quando conselheiros que pensam de ângulos opostos chegam no mesmo ponto sem combinar, isso tem peso. Marque como alta confiança.
 - **Divergência genuína não se suaviza.** Se o Contrário e o Expansionista batem de frente no preço, não escreva "depende do contexto". Apresente os dois lados, explique a tensão real e tome partido com raciocínio. O usuário quer clareza, não um cobertor.
 - **A maioria não manda.** Se 4 de 5 dizem "faz" mas o raciocínio do dissidente é o mais forte, fique com o dissidente. O conselho não é uma votação — é uma deliberação. O melhor argumento ganha, não o mais votado.
-- **A recomendação é uma resposta de verdade.** Não "considere os dois lados". Não "depende". Um veredito que o usuário consegue agir em cima.
+- **A recomendação é uma resposta de verdade.** Nunca uma média morna. Nunca "depende". Nunca "considere os dois lados" como veredito. Um veredito que o usuário consegue agir em cima.
+- **Critério de pronto.** O presidente diz o que precisa ser verdade no fim pra decisão ter dado certo. Concreto e verificável. Sem isso, ninguém sabe quando parar nem se acertou.
 - **Um primeiro passo, não dez.** A última seção é uma única ação concreta. Se você listar dez coisas, o usuário não faz nenhuma. Escolha a que destrava o resto — quase sempre o menor experimento que falsifica a premissa mais arriscada.
 
 ---
@@ -102,7 +109,7 @@ Gere um arquivo HTML único, autocontido, com CSS inline. Não use framework, n�
 
 Princípios de design:
 - **Fundo claro** (branco ou off-white, #ffffff / #fafafa), tipografia sans-serif legível (system font stack), bordas sutis. Nada espalhafatoso.
-- **O veredito do presidente no topo, em destaque** — é o que mais gente lê. As cinco seções (concorda / diverge / pontos cegos / recomendação / primeiro passo) bem separadas e escaneáveis.
+- **O veredito do presidente no topo, em destaque**: é o que mais gente lê. As seis seções (concorda / diverge / pontos cegos / recomendação / critério de pronto / primeiro passo) bem separadas e escaneáveis.
 - **Visual de concordância × divergência** — um elemento simples mostrando onde os conselheiros se alinharam e onde divergiram. Pode ser um grid, um espectro ou um quadro de posições por conselheiro. Limpo e legível de relance. Use cor de acento suave pra distinguir alinhamento (verde apagado) de conflito (âmbar apagado).
 - **Seções recolhíveis por conselheiro** — a resposta completa de cada um dos cinco, colapsada por padrão (`<details>`/`<summary>` nativo, sem JS) pra página não sobrecarregar, mas disponível pra quem quiser cavar. Uma cor de acento suave por conselheiro pra distinguir as seções.
 - **Seção recolhível da revisão cruzada** — os destaques do peer review, também colapsada.
@@ -113,12 +120,12 @@ Cores de acento sugeridas por conselheiro (suaves, sóbrias):
 - O Pensador de Primeiros Princípios → azul (#2c6fbf)
 - O Expansionista → verde (#1e8449)
 - O Forasteiro → roxo (#7d3c98)
-- O Executor → laranja queimado (#b9770e)
+- O Enxuto → laranja queimado (#b9770e)
 
 Estrutura sugerida do documento:
 1. Cabeçalho: "CONSELHO — [o que foi levado ao conselho]" + data
 2. A pergunta enquadrada
-3. O veredito do presidente (as 5 seções), em destaque
+3. O veredito do presidente (as 6 seções), em destaque
 4. Visual de concordância × divergência
 5. As 5 respostas dos conselheiros (recolhíveis)
 6. Destaques da revisão cruzada (recolhível)

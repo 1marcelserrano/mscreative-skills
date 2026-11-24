@@ -8,9 +8,10 @@
       "should_trigger": true,
       "pass_if": [
         "Dispara o conselho (não responde direto com uma opinião única, nem pede contexto extra — a barra mínima já está no prompt)",
-        "Convoca os 5 conselheiros (Contrário, Primeiros Princípios, Expansionista, Forasteiro, Executor), cada um de seu ângulo, em paralelo",
+        "Convoca os 5 conselheiros (Contrário, Primeiros Princípios, Expansionista, Forasteiro, Enxuto), cada um de seu ângulo, em paralelo",
+        "Os conselheiros ancoram a crítica nos dados do prompt (lista de 4.000, operadores solo, preços) em vez de conselho genérico",
         "Roda a revisão cruzada (peer review) das respostas de forma anônima",
-        "Produz a síntese do presidente com as 5 seções: onde concorda, onde diverge, pontos cegos, recomendação, primeiro passo",
+        "Produz a síntese do presidente com as 6 seções: onde concorda, onde diverge, pontos cegos, recomendação, critério de pronto, primeiro passo",
         "A recomendação é direta (toma partido, não responde 'depende')",
         "Fecha com um único próximo passo concreto",
         "Gera relatório HTML + transcrição em markdown",

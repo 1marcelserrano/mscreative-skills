@@ -65,11 +65,11 @@ Um postmortem investiga por que algo morreu depois que morreu. O premortem faz o
 
 ### llm-council
 
-Você pergunta pra uma IA e recebe uma resposta — mas não tem como saber se é boa, porque só viu uma perspectiva. O conselho passa sua decisão por 5 conselheiros que pensam de ângulos opostos, faz cada um revisar os outros às cegas, e um presidente sintetiza o veredito final. Método LLM Council de Andrej Karpathy.
+Você pergunta pra uma IA e recebe uma resposta, mas não tem como saber se é boa, porque só viu uma perspectiva. O conselho passa sua decisão por 5 conselheiros que pensam de ângulos opostos, faz cada um revisar os outros às cegas, e um presidente sintetiza o veredito final. Método [LLM Council de Andrej Karpathy](https://github.com/karpathy/llm-council).
 
 **Quando usar:** uma escolha entre opções com trade-off real, validar um pivô, achar o furo numa estratégia, pressionar uma decisão de vários ângulos — quando existe incerteza genuína e o custo de errar é alto. Dispara com "passa no conselho", "devo fazer X ou Y" ou "não consigo decidir".
 
-**O que entrega:** 5 conselheiros em tensão proposital (o Contrário, o Pensador de Primeiros Princípios, o Expansionista, o Forasteiro, o Executor), revisão cruzada anônima entre eles, e um veredito com onde o conselho concorda, onde diverge, os pontos cegos pegos na revisão, a recomendação direta e o primeiro passo. Mais relatório HTML.
+**O que entrega:** 5 conselheiros em tensão proposital (o Contrário, o Pensador de Primeiros Princípios, o Expansionista, o Forasteiro, o Enxuto), todos ancorados no seu material real antes de criticar. O Enxuto procura o mesmo resultado com menos gasto de tempo, tokens, etapas ou complexidade. Depois vem a revisão cruzada anônima e um veredito com onde o conselho concorda, onde diverge, os pontos cegos pegos na revisão, a recomendação clara, o critério de pronto e o primeiro passo. Mais relatório HTML.
 
 **Por que funciona:** diversidade de ângulos somada à revisão anônima bate o oráculo único. Cada conselheiro mergulha inteiro no ângulo dele; o equilíbrio vem só na síntese — depois que as visões já bateram de frente.
 

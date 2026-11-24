@@ -5,10 +5,11 @@ description: |
   de 5 conselheiros de IA que analisam o caso de forma independente, revisam o
   trabalho uns dos outros de forma anônima (peer review) e sintetizam um veredito
   final. Baseado no método LLM Council de Andrej Karpathy. Cada conselheiro pensa
-  por uma lente diferente — o Contrário, o Pensador de Primeiros Princípios, o
-  Expansionista, o Forasteiro e o Executor — que criam tensão proposital entre si.
-  Entrega onde o conselho concorda, onde diverge, os pontos cegos que só a revisão
-  cruzada pegou, uma recomendação direta e o primeiro passo concreto. Gera
+  por uma lente diferente: o Contrário, o Pensador de Primeiros Princípios, o
+  Expansionista, o Forasteiro e o Enxuto. As lentes criam tensão proposital entre
+  si e criticam ancoradas no material real do usuário. Entrega onde o conselho
+  concorda, onde diverge, os pontos cegos que só a revisão cruzada pegou, uma
+  recomendação clara, o critério de pronto e o primeiro passo concreto. Gera
   relatório HTML + transcrição. TRIGGERS: passa no conselho, roda o conselho,
   convoca o conselho, leva pro conselho, conselho disso, conselho dessa decisão,
   war room isso, sala de guerra, põe à prova, pressiona essa ideia, stress test
@@ -30,7 +31,7 @@ Você pergunta pra uma IA, recebe uma resposta. Ela pode ser ótima. Pode ser ma
 
 O conselho resolve isso. Passa sua pergunta por 5 conselheiros independentes, cada um pensando de um ângulo fundamentalmente diferente. Depois eles revisam o trabalho uns dos outros, às cegas. Por fim, um presidente sintetiza tudo numa recomendação final que te diz onde os conselheiros concordam, onde batem de frente, e o que você deveria de fato fazer.
 
-Isto é adaptado do LLM Council de Andrej Karpathy. Ele dispara a pergunta pra vários modelos, faz cada um revisar os outros de forma anônima e um presidente produz a resposta final. A gente faz a mesma coisa dentro do Claude, usando sub-agentes com lentes de pensamento diferentes no lugar de modelos diferentes.
+Isto é adaptado do [LLM Council de Andrej Karpathy](https://github.com/karpathy/llm-council). Ele dispara a pergunta pra vários modelos, faz cada um revisar os outros de forma anônima e um presidente produz a resposta final. A gente faz a mesma coisa dentro do Claude, usando sub-agentes com lentes de pensamento diferentes no lugar de modelos diferentes.
 
 Esta skill carrega a fundamentação completa do método em `references/metodo-canonico.md` — leia esse arquivo no Passo 2 (perfil dos conselheiros) e no Passo 5 (relatório), quando precisar da profundidade e do template HTML.
 
@@ -73,6 +74,8 @@ A pergunta do usuário costuma ser só a ponta do iceberg. Antes de enquadrar, v
 
 Use `Glob` e `Read` rápidos. Não gaste mais de 30 segundos. Você procura os 2-3 arquivos que ancoram os conselheiros na realidade.
 
+**Âncora antes da crítica.** Esta é a regra que vale pra todo o conselho. Ninguém critica antes de ler o que já existe: o repertório do usuário, os arquivos, as decisões passadas, os números. Crítica sem essa âncora vira palpite genérico. Passe trechos e números reais pro enquadramento, não só o nome dos arquivos. Se o material não existe, diga isso no enquadramento, pra que os conselheiros saibam o que é fato e o que é suposição.
+
 ### passo 2: cheque se dá pra rodar
 
 A barra do conselho é baixa de propósito — ele lida bem com incerteza. Você precisa de pouco:
@@ -92,8 +95,9 @@ Pegue a pergunta crua do usuário **mais** o contexto enriquecido do workspace e
 
 1. A decisão ou pergunta central
 2. O contexto-chave da mensagem do usuário
-3. O contexto-chave dos arquivos do workspace (estágio do negócio, audiência, restrições, resultados passados, números relevantes)
+3. O contexto-chave dos arquivos do workspace (estágio do negócio, audiência, restrições, resultados passados, números relevantes), citado do material real
 4. O que está em jogo (por que essa decisão importa)
+5. O que falta: o que não foi achado no workspace e, por isso, é suposição
 
 Não coloque sua opinião. Não direcione. Mas **garanta** que cada conselheiro tenha contexto pra dar resposta específica e ancorada, não conselho genérico.
 
@@ -107,7 +111,9 @@ Gere os 5 conselheiros simultaneamente, como sub-agentes. Cada um pensa de um â
 2. **O Pensador de Primeiros Princípios** — ignora a pergunta de superfície e pergunta "o que a gente está tentando resolver de verdade aqui?". Tira as premissas, remonta o problema do zero. Às vezes o output mais valioso é ele dizendo "você está fazendo a pergunta errada".
 3. **O Expansionista** — procura o upside que todo mundo está deixando passar. O que poderia ser maior? Que oportunidade adjacente está escondida? Não liga pro risco (isso é trabalho do Contrário) — liga pro que acontece se isso der ainda mais certo do que o esperado.
 4. **O Forasteiro** — tem zero contexto sobre você, sua área ou sua história. Responde puramente ao que está na frente dele. É o conselheiro mais subestimado: especialistas criam pontos cegos, e o Forasteiro pega a maldição do conhecimento — o que é óbvio pra você e confuso pra todo mundo.
-5. **O Executor** — só liga pra uma coisa: dá pra fazer, e qual o caminho mais rápido? Ignora teoria, estratégia e visão macro. Olha cada ideia pela lente de "tá, mas o que você faz segunda de manhã?". Se a ideia é brilhante mas não tem primeiro passo claro, ele fala.
+5. **O Enxuto**: procura o mesmo resultado com menos gasto de tempo, tokens, etapas ou complexidade. Não é fazer barato. É não gastar o que não melhora o resultado. Pergunta o que dá pra cortar sem perder nada que importa e qual o caminho mais curto até um resultado que já sirva.
+
+Todos seguem a regra da âncora: leem o material real antes de criticar e apontam a evidência do que dizem. O Forasteiro também lê o material, mas só o que está na frente dele, sem o histórico.
 
 Cada conselheiro produz uma resposta de 150-300 palavras. Longa o bastante pra ter substância, curta o bastante pra escanear.
 
@@ -124,6 +130,8 @@ Um usuário trouxe esta pergunta ao conselho:
 ---
 [pergunta enquadrada]
 ---
+
+Antes de criticar, ancore no material real que veio no enquadramento: arquivos, decisões passadas, números. Aponte a evidência do que você diz. Se algo é suposição porque o material não existe, diga que é suposição.
 
 Responda da sua perspectiva. Seja direto e específico. Não hedge, não tente ser equilibrado. Mergulhe inteiro no seu ângulo. Os outros conselheiros cobrem os ângulos que você não cobre. Se você vê uma falha fatal, diga. Se você vê um upside enorme, diga.
 
@@ -183,8 +191,9 @@ Passo final. Um agente recebe tudo: a pergunta original, as 5 respostas (agora d
 1. **Onde o conselho concorda** — os pontos em que vários conselheiros convergiram de forma independente. São os sinais de alta confiança.
 2. **Onde o conselho diverge** — as discordâncias genuínas. Não suavize. Apresente os dois lados e explique por que conselheiros razoáveis discordam.
 3. **Os pontos cegos que o conselho pegou** — coisas que só emergiram na revisão cruzada. O que conselheiros individuais perderam e outros sinalizaram.
-4. **A recomendação** — uma recomendação clara e acionável. Não "depende". Não "considere os dois lados". Uma resposta de verdade. O presidente pode discordar da maioria se o raciocínio sustentar.
-5. **A única coisa pra fazer primeiro** — um único próximo passo concreto. Não uma lista de 10. Um.
+4. **A recomendação**: uma recomendação clara e acionável. Nunca uma média morna. Nunca "depende". Nunca "considere os dois lados" como veredito. O presidente pode discordar da maioria se o raciocínio do dissidente for o mais forte.
+5. **Critério de pronto**: o que precisa ser verdade no fim pra decisão ter dado certo. Concreto e verificável.
+6. **A única coisa pra fazer primeiro**: um único próximo passo concreto. Não uma lista de 10. Um.
 
 **Template do agente presidente:**
 
@@ -210,7 +219,7 @@ RESPOSTAS DOS CONSELHEIROS:
 **O Forasteiro:**
 [resposta]
 
-**O Executor:**
+**O Enxuto:**
 [resposta]
 
 REVISÕES CRUZADAS:
@@ -228,7 +237,10 @@ Produza o veredito do conselho com esta estrutura exata:
 [Coisas que só emergiram na revisão cruzada. O que um conselheiro perdeu e outro pegou.]
 
 ## A recomendação
-[Recomendação clara e direta. Não "depende". Uma resposta de verdade, com raciocínio.]
+[Recomendação clara e direta, com raciocínio. Nunca média morna, nunca "depende", nunca "considere os dois lados" como veredito. Fique com o dissidente se o raciocínio dele for o mais forte.]
+
+## Critério de pronto
+[O que precisa ser verdade no fim pra decisão ter dado certo. Concreto e verificável.]
 
 ## A única coisa pra fazer primeiro
 [Um único próximo passo concreto. Não uma lista. Um.]
@@ -284,7 +296,7 @@ Dê também um resumo curto no chat: a recomendação, a divergência principal 
 
 **O Forasteiro:** "Eu não sei o que é Claude Code. Se eu visse 'curso de R$897 sobre Claude Code pra iniciantes', eu não saberia se é pra mim. O nome não significa nada pra quem está fora do seu mundo. Sua landing tem que vender o resultado, não a ferramenta..."
 
-**O Executor:** "Um curso completo leva 4-8 semanas pra produzir direito. Antes de construir nada, rode um workshop ao vivo de R$197 pra 50 pessoas. Você valida demanda, gera depoimentos e cria a matéria-prima do curso. Se 50 pessoas não compram o workshop, 500 não compram o curso..."
+**O Enxuto:** "Um curso completo leva 4-8 semanas pra produzir direito. Esse gasto não melhora o que você precisa saber agora, que é se alguém compra. Um workshop ao vivo de R$197 pra 50 pessoas responde a mesma pergunta em uma semana, gera depoimentos e vira matéria-prima do curso. Se 50 pessoas não compram o workshop, 500 não compram o curso..."
 
 **Veredito do Presidente:**
 
@@ -296,12 +308,16 @@ Dê também um resumo curto no chat: a recomendação, a divergência principal 
 
 *Recomendação:* não construa o curso ainda. Valide com uma oferta de menor compromisso primeiro. Mas reenquadre por completo: venda o resultado (automatize seu negócio, ganhe 10 horas por semana), não a ferramenta.
 
+*Critério de pronto:* pelo menos 50 vagas pagas no workshop e uma lista das dúvidas que mais apareceram. Sem isso, o curso não começa.
+
 *A única coisa pra fazer primeiro:* rode um workshop ao vivo de R$197 chamado "Como automatizar sua primeira tarefa de negócio com IA" pra 50 pessoas. Não mencione Claude Code no título.
 
 ---
 
 ## notas importantes
 
+- **Âncora antes da crítica.** Todo conselheiro lê o material real antes de criticar. Crítica sem âncora é palpite genérico.
+- **O presidente fecha com critério de pronto e recomendação clara.** Nunca média morna, nunca "depende".
 - **Sempre gere os 5 conselheiros em paralelo.** Sequencial perde tempo e deixa respostas anteriores influenciarem as seguintes.
 - **Sempre anonimize pra revisão cruzada.** Se os revisores sabem quem disse o quê, deferem a certos estilos de pensamento em vez de avaliar pelo mérito.
 - **O presidente pode discordar da maioria.** Se 4 de 5 conselheiros dizem "faz" mas o raciocínio do único dissidente é o mais forte, o presidente fica com o dissidente e explica por quê.
