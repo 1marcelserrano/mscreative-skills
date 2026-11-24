@@ -17,6 +17,7 @@ Uma coleção curada de skills para o Claude (Claude Code, Cowork e claude.ai). 
 | [`oracle-diagnostic-lite`](./skills/oracle-diagnostic-lite/) | v1.0 | Faz 3-5 perguntas sobre seu negócio e devolve uma leitura de superfície: aponta em qual dimensão a tensão se concentra, sem prescrever a solução. | `diagnóstico grátis`, `onde meu negócio trava`, `qual meu gargalo`, `raio-x do negócio`, `por onde começo` |
 | [`nem-parece-ia`](./skills/nem-parece-ia/) | v1.0 | Revisa textos em PT-BR para remover cara de IA, lero-lero corporativo, falsa profundidade e cadência robótica sem apagar a voz do autor. | `não parecer IA`, `tira o lero-lero`, `deixa mais natural`, `revisa esse texto`, `humaniza em pt-br` |
 | [`geo-content-brief`](./skills/geo-content-brief/) | v1.0 | Transforma um keyword num brief que faz a página ranquear no Google e ser citada por AI Overviews, ChatGPT e Perplexity (GEO/AEO). Bimodal: brief para o redator ou gate de pré-publicação. | `preciso de um brief`, `otimizar para AI Overviews`, `vai ser citado por IA?`, `roda o gate`, `geo brief` |
+| [`os-checkpoint`](./skills/os-checkpoint/) | v0.2.0 | Skill original em inglês de [Rob Lennon](https://lennonlabs.com/guides/checkpoint-skill). Fecha uma thread de trabalho com IA sem perder nada: o que ficou pronto, o que ficou aberto, o que ficou órfão, o que aprendemos e o que vem a seguir. | `checkpoint this thread`, `close this thread`, `wrap this up`, `what did we do here` |
 
 ## Instalar
 
@@ -24,12 +25,12 @@ Três caminhos, do mais rápido ao mais permanente. Valem pra qualquer skill da 
 
 ### 1. Testar agora — sem instalar (claude.ai, ChatGPT, Gemini)
 
-Abra o `SKILL.md` da skill que você quer ([`premortem`](./skills/premortem/SKILL.md), [`llm-council`](./skills/llm-council/SKILL.md), [`oracle-diagnostic-lite`](./skills/oracle-diagnostic-lite/SKILL.md), [`nem-parece-ia`](./skills/nem-parece-ia/SKILL.md) ou [`geo-content-brief`](./skills/geo-content-brief/SKILL.md)), copie o conteúdo inteiro, cole numa conversa nova e descreva sua demanda logo abaixo. A skill roda na hora. Zero setup, funciona em qualquer chat de IA.
+Abra o `SKILL.md` da skill que você quer ([`premortem`](./skills/premortem/SKILL.md), [`llm-council`](./skills/llm-council/SKILL.md), [`oracle-diagnostic-lite`](./skills/oracle-diagnostic-lite/SKILL.md), [`nem-parece-ia`](./skills/nem-parece-ia/SKILL.md), [`geo-content-brief`](./skills/geo-content-brief/SKILL.md) ou [`os-checkpoint`](./skills/os-checkpoint/SKILL.md)), copie o conteúdo inteiro, cole numa conversa nova e descreva sua demanda logo abaixo. A skill roda na hora. Zero setup, funciona em qualquer chat de IA.
 
 ### 2. Claude Code / Cowork — uma skill, sem clonar o repo
 
 ```bash
-SKILL=premortem   # ou: llm-council, oracle-diagnostic-lite, nem-parece-ia, geo-content-brief
+SKILL=premortem   # ou: llm-council, oracle-diagnostic-lite, nem-parece-ia, geo-content-brief, os-checkpoint
 mkdir -p ~/.claude/skills/$SKILL
 curl -sL https://raw.githubusercontent.com/1marcelserrano/mscreative-skills/main/skills/$SKILL/SKILL.md \
   -o ~/.claude/skills/$SKILL/SKILL.md
@@ -64,11 +65,11 @@ Um postmortem investiga por que algo morreu depois que morreu. O premortem faz o
 
 ### llm-council
 
-Você pergunta pra uma IA e recebe uma resposta — mas não tem como saber se é boa, porque só viu uma perspectiva. O conselho passa sua decisão por 5 conselheiros que pensam de ângulos opostos, faz cada um revisar os outros às cegas, e um presidente sintetiza o veredito final. Método LLM Council de Andrej Karpathy.
+Você pergunta pra uma IA e recebe uma resposta, mas não tem como saber se é boa, porque só viu uma perspectiva. O conselho passa sua decisão por 5 conselheiros que pensam de ângulos opostos, faz cada um revisar os outros às cegas, e um presidente sintetiza o veredito final. Método [LLM Council de Andrej Karpathy](https://github.com/karpathy/llm-council).
 
 **Quando usar:** uma escolha entre opções com trade-off real, validar um pivô, achar o furo numa estratégia, pressionar uma decisão de vários ângulos — quando existe incerteza genuína e o custo de errar é alto. Dispara com "passa no conselho", "devo fazer X ou Y" ou "não consigo decidir".
 
-**O que entrega:** 5 conselheiros em tensão proposital (o Contrário, o Pensador de Primeiros Princípios, o Expansionista, o Forasteiro, o Executor), revisão cruzada anônima entre eles, e um veredito com onde o conselho concorda, onde diverge, os pontos cegos pegos na revisão, a recomendação direta e o primeiro passo. Mais relatório HTML.
+**O que entrega:** 5 conselheiros em tensão proposital (o Contrário, o Pensador de Primeiros Princípios, o Expansionista, o Forasteiro, o Enxuto), todos ancorados no seu material real antes de criticar. O Enxuto procura o mesmo resultado com menos gasto de tempo, tokens, etapas ou complexidade. Depois vem a revisão cruzada anônima e um veredito com onde o conselho concorda, onde diverge, os pontos cegos pegos na revisão, a recomendação clara, o critério de pronto e o primeiro passo. Mais relatório HTML.
 
 **Por que funciona:** diversidade de ângulos somada à revisão anônima bate o oráculo único. Cada conselheiro mergulha inteiro no ângulo dele; o equilíbrio vem só na síntese — depois que as visões já bateram de frente.
 
@@ -102,6 +103,16 @@ A busca parou de terminar num clique e passou a terminar numa resposta gerada. E
 
 **Por que funciona:** SEO clássico te faz clicável; GEO/AEO te faz citável. A skill ataca o que ganha citação segundo a evidência — resposta direta nos primeiros 150 tokens (de onde sai ~55% das citações), seções que se sustentam isoladas (passage ranking) e dado próprio. Estrutura, não floreio.
 
+### os-checkpoint
+
+Skill original em inglês de Rob Lennon, versão 0.2.0, publicada aqui como ele escreveu. Original em [lennonlabs.com/guides/checkpoint-skill](https://lennonlabs.com/guides/checkpoint-skill). É um hábito do [Personal OS](https://lennonlabs.com/personal-os). Todos os direitos do original seguem com o autor; veja o [NOTICE](./skills/os-checkpoint/NOTICE).
+
+**Quando usar:** antes de compactar uma thread, quando um bloco grande de trabalho termina e você precisa se reorientar, ou quando vai fechar ou arquivar uma conversa. Dispara com "checkpoint this thread", "close this thread", "wrap this up" ou "what did we do here".
+
+**O que entrega:** um registro curto com o que ficou pronto e onde mora, o que ficou aberto e onde parou, os próximos passos em ordem com o motivo de cada um, os órfãos, o que aprendemos e se é seguro fechar. Se houve código, confere se o trabalho está commitado, enviado e alcançável de onde a próxima sessão começa.
+
+**Por que funciona:** o trabalho se perde no que foi deixado de lado no meio da thread. O checkpoint relê a conversa inteira, não só a última tela, e grava o registro onde o projeto já guarda essas coisas.
+
 ---
 
 ## Contribuindo
@@ -111,6 +122,8 @@ PRs são bem-vindos. Abra uma issue antes de mudanças grandes.
 ## Licença
 
 MIT + Commons Clause — veja [LICENSE](./LICENSE). Livre pra usar, estudar, modificar e usar internamente. Não pode revender nem reempacotar como produto pago.
+
+A pasta [`skills/os-checkpoint/`](./skills/os-checkpoint/) não está sob MIT + Commons Clause; veja o [NOTICE](./skills/os-checkpoint/NOTICE) dela.
 
 ---
 
