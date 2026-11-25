@@ -42,7 +42,7 @@ Esta skill carrega a fundamentação completa do método em `references/metodo-c
 O conselho é pra pergunta onde estar errado sai caro.
 
 Boas perguntas de conselho:
-- "Devo lançar um workshop de R$497 ou um curso de R$1.500?"
+- "Migro o atendimento pra um chatbot agora ou daqui a 6 meses?"
 - "Qual desses 3 ângulos de posicionamento é o mais forte?"
 - "Tô pensando em pivotar de X pra Y. Tô louco?"
 - "Essa é a copy da minha landing page. Onde ela é fraca?"
@@ -81,7 +81,7 @@ Use `Glob` e `Read` rápidos. Não gaste mais de 30 segundos. Você procura os 2
 A barra do conselho é baixa de propósito — ele lida bem com incerteza. Você precisa de pouco:
 
 1. **Uma decisão real com trade-off.** Não uma pergunta de resposta única. Tem que haver opções, risco e um caminho que não é óbvio.
-2. **Contexto suficiente pra resposta específica.** O bastante pra um conselheiro dizer "ao preço de R$497, você compete com YouTube de graça", não "considere seu posicionamento".
+2. **Contexto suficiente pra resposta específica.** O bastante pra um conselheiro dizer "com 8 pessoas no atendimento e metade dos chamados sendo segunda via de boleto, o chatbot resolve o volume, não o problema", não "considere seus processos".
 
 Se a pergunta é vaga demais ("passa no conselho: meu negócio"), faça **uma** pergunta de esclarecimento. Só uma. Depois siga.
 
@@ -284,33 +284,31 @@ Dê também um resumo curto no chat: a recomendação, a divergência principal 
 
 ---
 
-## exemplo: conselho de uma decisão de produto
+## exemplo: conselho de uma decisão de time
 
-**Usuário:** "Passa no conselho: tô pensando em construir um curso de R$897 sobre Claude Code pra iniciantes. Minha audiência é majoritariamente solopreneur não-técnico. É a jogada certa?"
+**Usuário:** "Passa no conselho: tô decidindo se migro o atendimento pra um chatbot agora ou daqui a 6 meses. O time de atendimento tem 8 pessoas e a fila cresce toda semana. Qual é a jogada certa?"
 
-**O Contrário:** "O mercado tá inundado de curso de Claude agora. A R$897, você compete com conteúdo grátis no YouTube. Sua audiência é não-técnica, o que significa alta carga de suporte e risco de reembolso. Quem pagaria R$897 provavelmente já passou do nível iniciante..."
+**O Contrário:** "Chatbot em cima de processo bagunçado só responde errado mais rápido. Se ninguém sabe hoje quais são as 20 perguntas que mais chegam, o bot vai travar justo nelas e devolver o cliente irritado pra fila. E 8 pessoas vendo o bot como ameaça ao emprego é receita pra sabotagem silenciosa..."
 
-**O Pensador de Primeiros Princípios:** "O que você está tentando alcançar de verdade? Se é receita, curso é um dos caminhos mais lentos. Se é autoridade, um recurso grátis faria mais. Se é construir base de clientes pra ofertas de ticket mais alto, o preço e a audiência podem estar descasados..."
+**O Pensador de Primeiros Princípios:** "O problema é a fila, não a falta de chatbot. Por que a fila cresce? Se metade dos chamados é a mesma dúvida, isso pode ser uma página de ajuda, uma mensagem automática ou um ajuste no produto que gera a dúvida. Você talvez esteja escolhendo a data de uma solução antes de entender o problema..."
 
-**O Expansionista:** "Claude pra iniciante solopreneur é um mercado enorme e mal atendido. Todo mundo ensina o avançado. Se você acerta o ângulo iniciante, você dona a porta de entrada desse espaço inteiro. R$897 pode até ser barato. E se isso virasse um programa de R$2.500 com comunidade..."
+**O Expansionista:** "Feito direito, o bot não é só redução de fila. É um sensor: cada conversa vira dado sobre o que confunde o cliente. Em 6 meses você tem o mapa das dúvidas do produto inteiro. E o time de 8 deixa de responder segunda via e passa a cuidar dos casos que retêm cliente..."
 
-**O Forasteiro:** "Eu não sei o que é Claude Code. Se eu visse 'curso de R$897 sobre Claude Code pra iniciantes', eu não saberia se é pra mim. O nome não significa nada pra quem está fora do seu mundo. Sua landing tem que vender o resultado, não a ferramenta..."
+**O Forasteiro:** "Como cliente, eu não ligo se é robô ou pessoa. Ligo se resolve e se tem saída fácil pra falar com alguém. Se o bot me prender num labirinto de menus, eu desisto da empresa, não do atendimento. Ninguém aqui falou do botão 'falar com uma pessoa'..."
 
-**O Enxuto:** "Um curso completo leva 4-8 semanas pra produzir direito. Esse gasto não melhora o que você precisa saber agora, que é se alguém compra. Um workshop ao vivo de R$197 pra 50 pessoas responde a mesma pergunta em uma semana, gera depoimentos e vira matéria-prima do curso. Se 50 pessoas não compram o workshop, 500 não compram o curso..."
+**O Enxuto:** "Nem agora, nem daqui a 6 meses: daqui a 4 semanas, num pedaço só. Pega os 3 tipos de chamado mais repetidos, põe o bot só neles, com saída pra humano em um clique, e mede. Duas pessoas do time escrevem as respostas, porque elas sabem o que o cliente pergunta de verdade..."
 
 **Veredito do Presidente:**
 
-*Onde o conselho concorda:* o ângulo iniciante solopreneur tem demanda real, mas o enquadramento atual (curso de Claude Code) é específico demais na ferramenta e não vai ressoar com comprador não-técnico.
+*Onde o conselho concorda:* migrar tudo de uma vez é o maior risco. O bot só funciona sobre as perguntas que o time já conhece, e o time precisa estar dentro do projeto, não do outro lado.
 
-*Onde o conselho diverge:* preço. O Contrário diz que R$897 é alto demais dada a concorrência. O Expansionista diz que é baixo demais pro valor. A resolução depende de quanto suporte e acesso à comunidade entram no pacote.
+*Onde o conselho diverge:* o timing. O Contrário e o Pensador de Primeiros Princípios querem entender a fila antes de qualquer bot. O Expansionista e o Enxuto querem começar logo, pequeno, porque o próprio bot gera o dado que falta. A diferença está em quanto você já sabe sobre o que chega na fila.
 
-*Pontos cegos pegos na revisão:* a observação do Forasteiro — que "Claude Code" não significa nada pro comprador-alvo — é o insight mais importante. Todo conselheiro, menos o Forasteiro, assumiu que a audiência já sabe o que é isso.
+*Pontos cegos pegos na revisão:* a observação do Forasteiro sobre a saída pra falar com uma pessoa é o insight mais importante. Todos os outros discutiram quando lançar; nenhum discutiu o que acontece quando o bot não resolve.
 
-*Recomendação:* não construa o curso ainda. Valide com uma oferta de menor compromisso primeiro. Mas reenquadre por completo: venda o resultado (automatize seu negócio, ganhe 10 horas por semana), não a ferramenta.
+*Recomendação:* nem "agora" nem "daqui a 6 meses" na versão inteira. Faça um piloto pequeno no próximo mês, nos chamados mais repetidos, com o time escrevendo as respostas e saída pra humano garantida. A decisão da migração completa sai dos números do piloto.
 
-*Critério de pronto:* pelo menos 50 vagas pagas no workshop e uma lista das dúvidas que mais apareceram. Sem isso, o curso não começa.
-
-*A única coisa pra fazer primeiro:* rode um workshop ao vivo de R$197 chamado "Como automatizar sua primeira tarefa de negócio com IA" pra 50 pessoas. Não mencione Claude Code no título.
+*A única coisa pra fazer primeiro:* esta semana, puxe os chamados do último mês e conte os 3 tipos que mais se repetem. Sem essa lista, nenhuma das duas datas faz sentido.
 
 ---
 

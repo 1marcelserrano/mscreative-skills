@@ -1,25 +1,7 @@
 ---
 name: oracle-diagnostic-lite
-description: |
-  Mini-diagnóstico estratégico grátis — a porta de entrada do Creative Oracle™.
-  Roda 3-5 perguntas curtas sobre o negócio do usuário e devolve uma leitura de
-  superfície: aponta EM QUE dimensão a tensão se concentra (quem você é pra
-  quem, como você soa, por que compram, como você entrega) sem dizer como
-  resolver. Termina com handoff explícito para o Diagnóstico Oracle completo —
-  o motor pago que faz a leitura cruzada das quatro dimensões ao mesmo tempo.
-  TRIGGERS: diagnóstico grátis, mini diagnóstico, self-assessment, me avalia,
-  onde meu negócio trava, qual meu gargalo, o que está travando, raio-x do
-  negócio, check-up estratégico, diagnóstico estratégico, oracle diagnostic,
-  por onde começo, o que eu priorizo, qual meu maior problema, me dá um norte,
-  diagnóstico rápido, avalia minha marca, avalia meu posicionamento, o que está
-  errado no meu negócio, quero entender meu gargalo, leitura do oracle,
-  testar o oracle, experimentar o oracle, amostra do oracle. Use SEMPRE que
-  alguém pedir uma avaliação rápida ou gratuita do próprio negócio/marca, quiser
-  descobrir onde está o gargalo estratégico, ou pedir uma amostra do Oracle —
-  mesmo sem citar "diagnóstico". É a única entrada grátis do Oracle e ativa o
-  funil isca→motor pago. NÃO use para diagnóstico profundo, plano de ação,
-  reestruturação de posicionamento ou qualquer entrega que prescreva COMO
-  resolver — isso é o motor pago, faça o handoff.
+description: >-
+  Mini-diagnóstico estratégico grátis — porta de entrada do Creative Oracle™. Roda 3-5 perguntas curtas e devolve uma leitura de superfície: aponta EM QUE dimensão a tensão se concentra (quem você é pra quem, como soa, por que compram, como entrega) sem dizer COMO resolver. Termina com handoff para o Diagnóstico Oracle completo — o motor pago. TRIGGERS: diagnóstico grátis, mini diagnóstico, self-assessment, me avalia, onde meu negócio trava, qual meu gargalo, o que está travando, raio-x do negócio, check-up estratégico, oracle diagnostic, por onde começo, diagnóstico rápido, avalia minha marca, avalia meu posicionamento, testar o oracle, amostra do oracle. Use SEMPRE que alguém pedir avaliação rápida ou gratuita do próprio negócio, descobrir o gargalo estratégico, ou amostra do Oracle — mesmo sem citar 'diagnóstico'. NÃO use para diagnóstico profundo, plano de ação ou entrega que prescreva COMO resolver — isso é o motor pago, faça o handoff.
 ---
 
 # Oracle Diagnostic Lite

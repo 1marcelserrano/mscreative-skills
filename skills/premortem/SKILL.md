@@ -1,14 +1,9 @@
 ---
 name: premortem
 description: |
-  Roda um premortem sobre qualquer plano, lançamento, produto, contratação,
-  pricing, estratégia ou decisão de alto custo de erro. Assume que a decisão
-  JÁ FALHOU num horizonte futuro e trabalha de trás pra frente pra achar todo
-  motivo que a matou — antes de você gastar dinheiro, tempo ou reputação.
-  Método Gary Klein (hindsight prospectivo) + triagem Tigre / Tigre de Papel /
-  Elefante + matriz Probabilidade × Impacto + visão de fora (base rates) +
-  tripwires datados. Entrega plano revisado, premissa oculta exposta e
-  relatório HTML. TRIGGERS: roda um premortem, premortem disso, premortem desse
+  Premortem de plano ou decisão cara: assume que JÁ FALHOU e acha de trás pra
+  frente o que a matou. Entrega plano revisado e relatório HTML.
+  TRIGGERS: roda um premortem, premortem disso, premortem desse
   plano, faz um premortem, o que pode matar isso, o que pode dar errado, onde
   isso quebra, que ponto cego eu tenho, pré-morte, stress test desse plano,
   testa esse plano, advogado do diabo, devil's advocate, o que estou deixando
@@ -16,8 +11,8 @@ description: |
   vai dar certo, me prova que isso falha, premortem de lançamento, premortem de
   contratação, premortem de pricing. Use SEMPRE que houver um plano ou
   compromisso onde errar custa caro e a decisão ainda pode mudar de rumo.
-  Acione mesmo sem a palavra "premortem" — basta o usuário pedir pra encontrar
-  pontos cegos, furar um plano ou descobrir como algo pode falhar. NÃO dispare
+  Acione mesmo sem a palavra "premortem": basta pedir pra achar pontos
+  cegos, furar um plano ou ver como algo pode falhar. NÃO dispare
   em pedido de feedback de texto/draft (isso é edição), pergunta factual com
   uma resposta certa, ou decisão já tomada e irreversível.
 ---
@@ -241,22 +236,22 @@ Dê também um resumo curto no chat: a falha mais provável, a premissa oculta e
 
 ---
 
-## exemplo: premortem de um lançamento
+## exemplo: premortem de uma troca de sistema
 
-**Usuário:** "premortem disso: vou lançar um workshop ao vivo de R$1.500 sobre como usar Claude pra times de marketing. 50 vagas. Alvo: gestores de marketing em empresas de 10-50 pessoas."
+**Usuário:** "premortem disso: vou trocar o CRM do time comercial de 12 pessoas no próximo trimestre. Sucesso é ter o pipeline inteiro no sistema novo e a previsão de vendas confiável até o fim do trimestre."
 
 **O premortem bruto identifica 6 motivos de falha. A triagem classifica:**
 
-- **Tigre (Bloqueia-Lançamento):** gestor de marketing nessa faixa de empresa precisa de aprovação pra gastar R$1.500 em desenvolvimento — fricção que você não contou. Evidência: ciclo de compra B2B nessa faixa passa por aprovação de orçamento.
-- **Tigre (Bloqueia-Lançamento):** quem de fato compra pode ser o solopreneur, não o gestor de time — descasamento entre conteúdo e plateia. Evidência: quem segue conteúdo de IA aplicada hoje é majoritariamente operador solo.
-- **Tigre (Fast-Follow):** montar workshop pra times exige ambiente de demo com dados realistas e setup multi-conta — 5 semanas de prep, não as 2 que você orçou.
-- **Tigre de Papel:** "um concorrente pode copiar o workshop" — possível, mas o ciclo de execução dele é de meses; baixo impacto agora.
-- **Elefante:** você está apaixonado pela tese "gestores de marketing são minha audiência" porque é onde você quer estar, não onde seus compradores estão. Ninguém te disse isso ainda.
-- **Tigre de Papel:** "a plataforma de transmissão pode cair" — gerenciável com backup.
+- **Tigre (Bloqueia-Lançamento):** a migração leva o histórico sujo junto — contatos duplicados, negociações abertas há anos, campos preenchidos pela metade. No primeiro mês o time não confia no que vê e volta a conferir tudo na planilha. Evidência: a base atual não tem dono de higiene de dados.
+- **Tigre (Bloqueia-Lançamento):** a adoção não acontece. Se o sistema novo pede mais campos que o antigo, os vendedores registram o mínimo e tocam a negociação pelo WhatsApp. Evidência: o time já preenche o CRM atual pela metade.
+- **Tigre (Fast-Follow):** as integrações (e-mail, telefone, faturamento) levam 6 semanas, não as 2 que você reservou, e a virada acontece com o sistema meio conectado.
+- **Tigre de Papel:** "o fornecedor novo pode reajustar o contrato no ano que vem" — possível, mas o contrato é anual e dá pra negociar a renovação; impacto gerenciável.
+- **Elefante:** o problema não é a ferramenta. O gestor nunca cobrou o uso do CRM atual, e trocar de sistema é mais confortável do que ter essa conversa com o time. Ninguém disse isso em voz alta.
+- **Tigre de Papel:** "o sistema pode cair no dia da virada" — gerenciável com o CRM antigo em modo leitura por algumas semanas.
 
-**Os agentes vão fundo em cada Tigre + o red-team ataca a premissa "gestores de 10-50 pessoas são alcançáveis".**
+**Os agentes vão fundo em cada Tigre + o red-team ataca a premissa "o CRM atual é o que atrapalha as vendas".**
 
-**Síntese:** A falha mais provável é o descasamento de audiência — você mira em quem precisa de aprovação pra gastar R$1.500. A mais perigosa: atrair solopreneur em vez de gestor faz seus depoimentos e cases não ressoarem com o comprador-alvo das próximas turmas, o que compõe o problema. A premissa oculta (do red-team): "gestor de marketing em empresa de 10-50 pessoas" não se identifica assim e não frequenta os mesmos lugares — a audiência pode não ser alcançável. Base rate: workshops ao vivo de ticket alto em audiência fria convertem na casa de 1-3%. Plano revisado, menor experimento primeiro: rode um piloto de R$197 pra 20 pessoas. Use pra descobrir se seu comprador real é gestor ou solo, e construa o workshop cheio pra quem de fato aparecer. Tripwire: se em 7 dias de divulgação menos de 10 inscritos forem gestores de time, o alvo está errado — pivota.
+**Síntese:** A falha mais provável é a adoção — o time registra no sistema novo o mesmo pouco que registrava no antigo. A mais perigosa: perder o histórico de negociações no meio do trimestre deixa a previsão de vendas cega justo no fechamento. A premissa oculta (do red-team): o CRM antigo não é o gargalo; a falta de rotina de registro é, e ela viaja junto pro sistema novo. Base rate: boa parte das implantações de CRM não entrega o esperado, e a causa mais citada é adoção, não tecnologia. Plano revisado, menor experimento primeiro: rode um piloto com 3 vendedores por 2 semanas, só com os campos que o time já usa, e defina com o gestor a rotina de registro antes de migrar os 12. Tripwire: se ao fim da segunda semana do piloto menos de 80% das negociações novas estiverem no sistema novo, pausa a migração e resolve a rotina primeiro.
 
 ---
 
@@ -268,6 +263,6 @@ Dê também um resumo curto no chat: a falha mais provável, a premissa oculta e
 - **Abrangente, mas sem encher.** Ache todo motivo genuíno. Não pare em 3 se houver 7. Mas não force 7 se houver 3.
 - **A síntese é o produto.** A maioria lê a síntese e passa o olho nos cards. Faça específica e acionável.
 - **Não suavize.** O ponto do premortem é te dizer o que você não quer ouvir antes da realidade dizer. Se o plano tem problema sério, diga direto.
-- **O plano revisado é concreto.** Nada de "considere testar seu pricing". Diga "rode um piloto de R$197 com 20 pessoas antes de travar o workshop de R$1.500". Toda revisão é algo que dá pra fazer esta semana.
+- **O plano revisado é concreto.** Nada de "considere testar seu pricing". Diga "rode um piloto com 3 vendedores por 2 semanas antes de migrar o time inteiro". Toda revisão é algo que dá pra fazer esta semana.
 - **Respeite a barra mínima de contexto.** Premortem sobre contexto insuficiente gera falha genérica que desperdiça o tempo do usuário. Melhor uma pergunta a mais do que um premortem ruim.
 - **O Elefante é onde mora o ouro.** O que o usuário evita falar costuma ser a causa real. Nomeie mesmo quando for desconfortável.
